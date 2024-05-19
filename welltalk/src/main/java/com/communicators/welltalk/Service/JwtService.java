@@ -54,6 +54,11 @@ public class JwtService {
     public String generateToken(UserEntity user) {
         String token = Jwts
                 .builder()
+                .claim("firstName", user.getFirstName())
+                .claim("lastName", user.getLastName())
+                .claim("gender", user.getGender())
+                .claim("idNumber", user.getIdNumber())
+                .claim("image", user.getImage())
                 .subject(user.getInstitutionalEmail())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
