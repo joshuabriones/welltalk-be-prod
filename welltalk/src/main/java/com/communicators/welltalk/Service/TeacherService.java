@@ -29,11 +29,11 @@ public class TeacherService {
         try {
             teacherToUpdate = teacherRepository.findByIdAndIsDeletedFalse(id).get();
 
-            teacherToUpdate.setInstitutionalEmail(teacher.getInstitutionalEmail());
+            // teacherToUpdate.setInstitutionalEmail(teacher.getInstitutionalEmail());
             teacherToUpdate.setFirstName(teacher.getFirstName());
             teacherToUpdate.setLastName(teacher.getLastName());
             teacherToUpdate.setGender(teacher.getGender());
-            teacherToUpdate.setPassword(teacher.getPassword());
+            // teacherToUpdate.setPassword(teacher.getPassword());
             teacherToUpdate.setImage(teacher.getImage());
             teacherToUpdate.setCollege(teacher.getCollege());
         } catch (NoSuchElementException e) {
