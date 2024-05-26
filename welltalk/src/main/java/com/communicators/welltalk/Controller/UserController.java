@@ -25,6 +25,7 @@ import com.communicators.welltalk.Service.UserService;
 import com.communicators.welltalk.dto.PasswordChangeDTO;
 import com.communicators.welltalk.Repository.PasswordResetTokenRepository;
 import com.communicators.welltalk.Repository.UserRepository;
+import com.communicators.welltalk.Service.EmailService;
 
 @RestController
 public class UserController {
@@ -45,6 +46,9 @@ public class UserController {
 
     public AuthenticationService authenticationService;
 
+    @Autowired
+    public EmailService emailService;
+
     public UserController(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
     }
@@ -62,7 +66,13 @@ public class UserController {
         String token = UUID.randomUUID().toString();
         passwordReset.createPasswordResetTokenForUser(user, token);
 
-        System.out.println("Token: " + token);
+        String message = "Here is the link to reset your password: " + token;
+
+        emailService.sendSimpleMessage(
+                email,
+                "Password Reset Request",
+                message);
+
         return ResponseEntity.ok("Reset password email sent.");
     }
 
