@@ -36,7 +36,7 @@ public class SecurityConfig {
                         req -> req
                                 .antMatchers("/login/**", "/createUser/**", "/user/student/createStudent/**",
                                         "/user/counselor/createCounselor/**", "/user/teacher/createTeacher/**",
-                                        "/changePassword/**")
+                                        "/changePassword/**", "/resetPassword/**", "/forgotPassword/**")
                                 .permitAll()
                                 .anyRequest().authenticated())
                 .userDetailsService(userService)

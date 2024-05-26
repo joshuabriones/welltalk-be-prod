@@ -1,10 +1,12 @@
 package com.communicators.welltalk.Controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,18 +14,34 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.communicators.welltalk.Entity.AuthenticationResponse;
+import com.communicators.welltalk.Entity.PasswordResetTokenEntity;
 import com.communicators.welltalk.Entity.UserEntity;
 import com.communicators.welltalk.Service.AuthenticationService;
+import com.communicators.welltalk.Service.PasswordReset;
 import com.communicators.welltalk.Service.UserService;
 import com.communicators.welltalk.dto.PasswordChangeDTO;
+import com.communicators.welltalk.Repository.PasswordResetTokenRepository;
+import com.communicators.welltalk.Repository.UserRepository;
 
 @RestController
 public class UserController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    PasswordReset passwordReset;
+
+    PasswordResetTokenEntity passwordResetTokenEntity;
+
+    @Autowired
+    PasswordResetTokenRepository passwordResetTokenRepository;
 
     public AuthenticationService authenticationService;
 
@@ -35,6 +53,37 @@ public class UserController {
     // public ResponseEntity<UserEntity> register(@RequestBody UserEntity request) {
     // return ResponseEntity.ok(authenticationService.register(request));
     // }
+
+    @PostMapping("/resetPassword")
+    public ResponseEntity<?> resetPassword(@RequestParam("email") String email) {
+        UserEntity user = userRepository.findByInstitutionalEmailAndIsDeletedFalse(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+
+        String token = UUID.randomUUID().toString();
+        passwordReset.createPasswordResetTokenForUser(user, token);
+
+        System.out.println("Token: " + token);
+        return ResponseEntity.ok("Reset password email sent.");
+    }
+
+    @PutMapping("/forgotPassword")
+    public ResponseEntity<?> changePassword(@RequestParam("token") String token,
+            @RequestParam("newPassword") String newPassword) {
+        if (!passwordReset.validatePasswordResetToken(token)) {
+            return ResponseEntity.badRequest().body("Invalid or expired token.");
+        }
+
+        PasswordResetTokenEntity resetToken = passwordResetTokenRepository.findByToken(token)
+                .orElseThrow(() -> new IllegalStateException("Couldn't find the password reset token."));
+
+        UserEntity user = resetToken.getUser();
+        passwordReset.changeUserPassword(user, newPassword);
+
+        // Invalidate the token after use
+        passwordResetTokenRepository.delete(resetToken);
+
+        return ResponseEntity.ok("Password changed successfully.");
+    }
 
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> login(@RequestBody UserEntity request) {
