@@ -17,6 +17,7 @@ import com.communicators.welltalk.Entity.AuthenticationResponse;
 import com.communicators.welltalk.Entity.UserEntity;
 import com.communicators.welltalk.Service.AuthenticationService;
 import com.communicators.welltalk.Service.UserService;
+import com.communicators.welltalk.dto.PasswordChangeDTO;
 
 @RestController
 public class UserController {
@@ -30,22 +31,25 @@ public class UserController {
         this.authenticationService = authenticationService;
     }
 
-    @PostMapping("/createUser")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody UserEntity request) {
-        return ResponseEntity.ok(authenticationService.register(request));
-    }
+    // @PostMapping("/createUser")
+    // public ResponseEntity<UserEntity> register(@RequestBody UserEntity request) {
+    // return ResponseEntity.ok(authenticationService.register(request));
+    // }
 
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> login(@RequestBody UserEntity request) {
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }
 
-
-
     @GetMapping("/getAllUsers")
     public ResponseEntity<List<UserEntity>> getAllUsers() {
         List<UserEntity> users = userService.getAllUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
+    @PutMapping("/changePassword")
+    public ResponseEntity<?> changePassword(@RequestBody PasswordChangeDTO request) {
+        return ResponseEntity.ok(authenticationService.changePassword(request));
     }
 
     @GetMapping("/getUserById/{id}")

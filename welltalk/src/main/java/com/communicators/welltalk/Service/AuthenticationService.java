@@ -6,8 +6,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.communicators.welltalk.Entity.AuthenticationResponse;
+import com.communicators.welltalk.Entity.CounselorEntity;
 import com.communicators.welltalk.Entity.UserEntity;
+import com.communicators.welltalk.Repository.CounselorRepository;
+import com.communicators.welltalk.Repository.StudentRepository;
+import com.communicators.welltalk.Repository.TeacherRepository;
 import com.communicators.welltalk.Repository.UserRepository;
+import com.communicators.welltalk.dto.PasswordChangeDTO;
+import com.communicators.welltalk.Entity.StudentEntity;
+import com.communicators.welltalk.Entity.TeacherEntity;
 
 @Service
 public class AuthenticationService {
@@ -15,38 +22,81 @@ public class AuthenticationService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
-
+    private final StudentRepository studentRepository;
+    private final TeacherRepository teacherRepository;
+    private final CounselorRepository counselorRepository;
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService,
-            AuthenticationManager authenticationManager) {
+            AuthenticationManager authenticationManager, StudentRepository studentRepository,
+            TeacherRepository teacherRepository, CounselorRepository counselorRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
+        this.studentRepository = studentRepository;
+        this.teacherRepository = teacherRepository;
+        this.counselorRepository = counselorRepository;
     }
 
-    public AuthenticationResponse register(UserEntity request) {
+    public boolean existsByEmail(String institutionalEmail) {
+        return userRepository.existsByInstitutionalEmail(institutionalEmail);
+    }
+
+    public UserEntity register(UserEntity request) {
+        if (existsByEmail(request.getInstitutionalEmail())) {
+            throw new RuntimeException("Email already exists");
+        }
+
         UserEntity user = new UserEntity();
-        user.setFirstName(request.getFirstName());
-        user.setLastName(request.getLastName());
-        user.setGender(request.getGender());
-        user.setIdNumber(request.getIdNumber());
-        user.setImage(request.getImage());
-        user.setDateOfCreation(request.getDateOfCreation());
-        user.setDateOfModification(request.getDateOfModification());
-        user.setRole(request.getRole());
-        user.setIsDeleted(request.getIsDeleted());
-        user.setInstitutionalEmail(request.getInstitutionalEmail());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
 
-        user.setCustomRole(request.getCustomRole());
+        request.setPassword(passwordEncoder.encode(request.getPassword()));
 
-        user = userRepository.save(user);
+        user = userRepository.save(request);
 
-        String token = jwtService.generateToken(user);
+        return user;
+    }
 
-        return new AuthenticationResponse(token);
+    public StudentEntity registerStudent(StudentEntity request) {
+        if (existsByEmail(request.getInstitutionalEmail())) {
+            throw new RuntimeException("Email already exists");
+        }
+
+        StudentEntity student = new StudentEntity();
+
+        request.setPassword(passwordEncoder.encode(request.getPassword()));
+
+        student = studentRepository.save(request);
+
+        return student;
+    }
+
+    public TeacherEntity registerTeacher(TeacherEntity request) {
+        if (existsByEmail(request.getInstitutionalEmail())) {
+            throw new RuntimeException("Email already exists");
+        }
+
+        TeacherEntity teacher = new TeacherEntity();
+
+        request.setPassword(passwordEncoder.encode(request.getPassword()));
+
+        teacher = teacherRepository.save(request);
+
+        return teacher;
+    }
+
+    public CounselorEntity registerCounselor(CounselorEntity request) {
+        if (existsByEmail(request.getInstitutionalEmail())) {
+            throw new RuntimeException("Email already exists");
+        }
+
+        CounselorEntity counselor = new CounselorEntity();
+
+        request.setPassword(passwordEncoder.encode(request.getPassword()));
+
+        counselor = counselorRepository.save(request);
+
+        return counselor;
     }
 
     public AuthenticationResponse authenticate(UserEntity request) {
@@ -60,6 +110,27 @@ public class AuthenticationService {
 
         return new AuthenticationResponse(token);
 
+    }
+
+    public boolean changePassword(PasswordChangeDTO request) {
+        UserEntity user;
+        if (existsByEmail(request.getEmail())) {
+            user = userRepository.findByInstitutionalEmail(request.getEmail());
+        } else {
+            throw new RuntimeException("Email does not exist: " + request.getEmail());
+        }
+
+        // Check if the old password matches
+        if (!passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
+            throw new IllegalArgumentException("Old password is incorrect.");
+        }
+
+        // Encode the new password and set it to the user
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+
+        // Save the updated user
+        userRepository.save(user);
+        return true;
     }
 
 }

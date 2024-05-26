@@ -37,10 +37,6 @@ public class UserService implements UserDetailsService {
         return userRepository.findByInstitutionalEmailAndIsDeletedFalse(institutionalEmail).isPresent();
     }
 
-    public UserEntity registerUser(UserEntity user) {
-        return userRepository.save(user);
-    }
-
     @SuppressWarnings("finally")
     public UserEntity updateUser(int id, UserEntity user) {
         UserEntity userToUpdate = new UserEntity();
@@ -53,7 +49,6 @@ public class UserService implements UserDetailsService {
             userToUpdate.setGender(user.getGender());
             userToUpdate.setPassword(user.getPassword());
             userToUpdate.setImage(user.getImage());
-            userToUpdate.setDateOfModification(user.getDateOfModification());
         } catch (Exception e) {
             throw new IllegalArgumentException("User " + user.getId() + " does not exist.");
         } finally {

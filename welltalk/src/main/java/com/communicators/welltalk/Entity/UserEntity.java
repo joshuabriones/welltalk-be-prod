@@ -13,13 +13,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.JOINED)
 public class UserEntity implements UserDetails {
 
     @Id
@@ -62,7 +64,6 @@ public class UserEntity implements UserDetails {
 
     @Enumerated(value = EnumType.STRING)
     Role customRole;
-
 
     public Role getCustomRole() {
         return customRole;
@@ -165,16 +166,18 @@ public class UserEntity implements UserDetails {
         return image;
     }
 
-    public void setDateOfCreation(LocalDateTime dateOfCreation) {
-        this.dateOfCreation = dateOfCreation;
+    @PrePersist
+    protected void onCreate() {
+        dateOfCreation = LocalDateTime.now();
     }
 
     public LocalDateTime getDateOfCreation() {
         return dateOfCreation;
     }
 
-    public void setDateOfModification(LocalDateTime dateOfModification) {
-        this.dateOfModification = dateOfModification;
+    @PreUpdate
+    protected void onUpdate() {
+        dateOfModification = LocalDateTime.now();
     }
 
     public LocalDateTime getDateOfModification() {

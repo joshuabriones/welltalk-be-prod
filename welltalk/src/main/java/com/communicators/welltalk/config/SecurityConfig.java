@@ -34,7 +34,10 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeRequests(
                         req -> req
-                                .antMatchers("/login/**", "/createUser/**").permitAll()
+                                .antMatchers("/login/**", "/createUser/**", "/user/student/createStudent/**",
+                                        "/user/counselor/createCounselor/**", "/user/teacher/createTeacher/**",
+                                        "/changePassword/**")
+                                .permitAll()
                                 .anyRequest().authenticated())
                 .userDetailsService(userService)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
