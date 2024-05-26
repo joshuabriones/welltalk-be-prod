@@ -21,6 +21,14 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
+    public boolean existsByEmail(String institutionalEmail) {
+        return userRepository.existsByInstitutionalEmail(institutionalEmail);
+    }
+
+    public boolean existsByIdNumber(String idNumber) {
+        return userRepository.existsByIdNumber(idNumber);
+    }
+
     public List<UserEntity> getAllIsNotDeletedUsers() {
         return userRepository.findByIsDeletedFalse();
     }

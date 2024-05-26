@@ -48,6 +48,10 @@ public class AuthenticationService {
             throw new RuntimeException("Email already exists");
         }
 
+        if (userRepository.existsByIdNumber(request.getIdNumber())) {
+            throw new RuntimeException("ID number already exists");
+        }
+
         UserEntity user = new UserEntity();
 
         request.setPassword(passwordEncoder.encode(request.getPassword()));
@@ -60,6 +64,10 @@ public class AuthenticationService {
     public StudentEntity registerStudent(StudentEntity request) {
         if (existsByEmail(request.getInstitutionalEmail())) {
             throw new RuntimeException("Email already exists");
+        }
+
+        if (userRepository.existsByIdNumber(request.getIdNumber())) {
+            throw new RuntimeException("ID number already exists");
         }
 
         StudentEntity student = new StudentEntity();
@@ -76,6 +84,10 @@ public class AuthenticationService {
             throw new RuntimeException("Email already exists");
         }
 
+        if (userRepository.existsByIdNumber(request.getIdNumber())) {
+            throw new RuntimeException("ID number already exists");
+        }
+
         TeacherEntity teacher = new TeacherEntity();
 
         request.setPassword(passwordEncoder.encode(request.getPassword()));
@@ -88,6 +100,10 @@ public class AuthenticationService {
     public CounselorEntity registerCounselor(CounselorEntity request) {
         if (existsByEmail(request.getInstitutionalEmail())) {
             throw new RuntimeException("Email already exists");
+        }
+
+        if (userRepository.existsByIdNumber(request.getIdNumber())) {
+            throw new RuntimeException("ID number already exists");
         }
 
         CounselorEntity counselor = new CounselorEntity();

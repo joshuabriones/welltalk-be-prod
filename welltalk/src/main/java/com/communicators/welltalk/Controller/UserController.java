@@ -53,10 +53,20 @@ public class UserController {
         this.authenticationService = authenticationService;
     }
 
-    // @PostMapping("/createUser")
-    // public ResponseEntity<UserEntity> register(@RequestBody UserEntity request) {
-    // return ResponseEntity.ok(authenticationService.register(request));
-    // }
+    @PostMapping("/createUser")
+    public ResponseEntity<UserEntity> register(@RequestBody UserEntity request) {
+        return ResponseEntity.ok(authenticationService.register(request));
+    }
+
+    @GetMapping("/existsByEmail")
+    public ResponseEntity<?> getMethodName(@RequestParam String email) {
+        return ResponseEntity.ok(userService.existsByEmail(email));
+    }
+
+    @GetMapping("/existsByIdNumber")
+    public ResponseEntity<?> existsByIdNumber(@RequestParam String idNumber) {
+        return ResponseEntity.ok(userService.existsByIdNumber(idNumber));
+    }
 
     @PostMapping("/resetPassword")
     public ResponseEntity<?> resetPassword(@RequestParam("email") String email) {
