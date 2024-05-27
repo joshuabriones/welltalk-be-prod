@@ -37,11 +37,11 @@ public class CounselorService {
         try {
             counselorToUpdate = counselorRepository.findByIdAndIsDeletedFalse(id).get();
 
-            counselorToUpdate.setInstitutionalEmail(counselor.getInstitutionalEmail());
+            // counselorToUpdate.setInstitutionalEmail(counselor.getInstitutionalEmail());
             counselorToUpdate.setFirstName(counselor.getFirstName());
             counselorToUpdate.setLastName(counselor.getLastName());
             counselorToUpdate.setGender(counselor.getGender());
-            counselorToUpdate.setPassword(counselor.getPassword());
+            // counselorToUpdate.setPassword(counselor.getPassword());
             counselorToUpdate.setImage(counselor.getImage());
         } catch (NoSuchElementException e) {
             throw new NoSuchElementException("Counselor " + id + " does not exist.");

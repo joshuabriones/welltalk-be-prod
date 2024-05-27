@@ -32,11 +32,11 @@ public class StudentService {
         try {
             studentToUpdate = studentRepository.findByIdAndIsDeletedFalse(id).get();
 
-            studentToUpdate.setInstitutionalEmail(student.getInstitutionalEmail());
+            // studentToUpdate.setInstitutionalEmail(student.getInstitutionalEmail());
             studentToUpdate.setFirstName(student.getFirstName());
             studentToUpdate.setLastName(student.getLastName());
             studentToUpdate.setGender(student.getGender());
-            studentToUpdate.setPassword(student.getPassword());
+            // studentToUpdate.setPassword(student.getPassword());
             studentToUpdate.setImage(student.getImage());
             studentToUpdate.setCollege(student.getCollege());
             studentToUpdate.setProgram(student.getProgram());
