@@ -54,6 +54,7 @@ public class JwtService {
     public String generateToken(UserEntity user) {
         String token = Jwts
                 .builder()
+                .claim("id", user.getId())
                 .claim("firstName", user.getFirstName())
                 .claim("lastName", user.getLastName())
                 .claim("gender", user.getGender())
