@@ -27,6 +27,10 @@ public class CounselorService {
         return counselorRepository.findByIdAndIsDeletedFalse(id).get();
     }
 
+    public CounselorEntity getCounselorByEmail(String email) {
+        return counselorRepository.findByInstitutionalEmailAndIsDeletedFalse(email).get();
+    }
+
     @SuppressWarnings("finally")
     public CounselorEntity updateCounselor(int id, CounselorEntity counselor) {
         CounselorEntity counselorToUpdate = new CounselorEntity();
