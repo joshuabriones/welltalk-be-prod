@@ -56,22 +56,31 @@ public class UserEntity implements UserDetails {
     @Column(name = "dateOfModification")
     private LocalDateTime dateOfModification;
 
-    @Column(name = "role")
-    private String role;
+    @Enumerated(value = EnumType.STRING)
+    Role role;
+
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
     @Column(name = "isDeleted")
     private boolean isDeleted;
 
-    @Enumerated(value = EnumType.STRING)
-    Role customRole;
+    // @Enumerated(value = EnumType.STRING)
+    // Role customRole;
 
-    public Role getCustomRole() {
-        return customRole;
-    }
+    // public Role getCustomRole() {
+    //     return customRole;
+    // }
 
-    public void setCustomRole(Role customRole) {
-        this.customRole = customRole;
-    }
+    // public void setCustomRole(Role customRole) {
+    //     this.customRole = customRole;
+    // }
 
     public UserEntity() {
 
@@ -86,7 +95,6 @@ public class UserEntity implements UserDetails {
         this.gender = gender;
         this.password = password;
         this.image = image;
-        this.role = role;
         isDeleted = false;
     }
 
@@ -98,7 +106,6 @@ public class UserEntity implements UserDetails {
         this.lastName = lastName;
         this.gender = gender;
         this.password = password;
-        this.role = role;
         isDeleted = false;
     }
 
@@ -184,13 +191,6 @@ public class UserEntity implements UserDetails {
         return dateOfModification;
     }
 
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public String getRole() {
-        return role;
-    }
 
     public void setIsDeleted(boolean isDeleted) {
         this.isDeleted = isDeleted;
@@ -202,7 +202,7 @@ public class UserEntity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(customRole.name()));
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override

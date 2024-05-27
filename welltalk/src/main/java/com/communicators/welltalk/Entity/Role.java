@@ -1,5 +1,5 @@
 package com.communicators.welltalk.Entity;
 
 public enum Role {
-    USER, ADMIN
+    Teacher,Counselor,Student, ADMIN
 }
