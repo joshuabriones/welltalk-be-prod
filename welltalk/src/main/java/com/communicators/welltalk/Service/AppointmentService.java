@@ -24,6 +24,9 @@ public class AppointmentService {
     @Autowired
     CounselorService counselorService;
 
+    @Autowired
+    EmailService emailService;
+
     public AppointmentEntity saveAppointment(int id, AppointmentEntity appointment) {
         if (checkAppointmentIsTaken(appointment.getAppointmentDate(), appointment.getAppointmentStartTime())) {
             throw new IllegalArgumentException("Date and Time is already taken");
@@ -34,7 +37,17 @@ public class AppointmentService {
         appointment.setStudent(student);
         appointment.setAppointmentStatus("Pending");
 
-        return appointmentRepository.save(appointment);
+        AppointmentEntity appointmentCreated = appointmentRepository.save(appointment);
+
+        String message = "An appointment has been created for you. Date: " + appointment.getAppointmentDate()
+                + " Time: "
+                + appointment.getAppointmentStartTime() + " Purpose: " + appointment.getAppointmentPurpose() + " Type: "
+                + appointment.getAppointmentType() + " Please wait for the counselor to assign you a time.";
+
+        emailService.sendSimpleMessage(appointmentCreated.getStudent().getInstitutionalEmail(), "Appointment Created",
+                message);
+
+        return appointmentCreated;
     }
 
     public AppointmentEntity assignCounselor(String counselorEmail, int appointmentId) {
@@ -53,6 +66,15 @@ public class AppointmentService {
         AppointmentEntity appointment = appointmentOpt.get();
         appointment.setCounselor(counselor);
         appointment.setAppointmentStatus("Assigned");
+
+        String message = "A counselor has been assign to you. Counselor: " + appointment.getCounselor().getFirstName()
+                + " " + appointment.getCounselor().getLastName() + " Email: "
+                + appointment.getCounselor().getInstitutionalEmail() + " Appointment Details: Date: "
+                + appointment.getAppointmentDate() + " Time: " + appointment.getAppointmentStartTime() + " Purpose: "
+                + appointment.getAppointmentPurpose() + " Type: " + appointment.getAppointmentType();
+
+        emailService.sendSimpleMessage(appointment.getStudent().getInstitutionalEmail(), "Counselor Assigned", message);
+
         return appointmentRepository.save(appointment);
     }
 
