@@ -32,12 +32,13 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
+                .cors(AbstractHttpConfigurer::and)
                 .authorizeRequests(
                         req -> req
                                 .antMatchers("/login/**", "/createUser/**", "/user/student/createStudent/**",
                                         "/user/counselor/createCounselor/**", "/user/teacher/createTeacher/**",
                                         "/changePassword/**", "/resetPassword/**",
-                                        "/forgotPassword/**","/user/inquiry/createInquiry", "/student/journal/createJournal/**")
+                                        "/forgotPassword/**")
                                 .permitAll()
                                 .anyRequest().authenticated())
                 .userDetailsService(userService)
