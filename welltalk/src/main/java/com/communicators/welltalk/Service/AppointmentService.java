@@ -132,6 +132,9 @@ public class AppointmentService {
         appointment.setAppointmentStatus("Done");
         appointment.setAppointmentNotes(notes);
         appointment.setAppointmentAdditionalNotes(additionalNotes);
+
+        // add email part
+
         return appointmentRepository.save(appointment);
     }
 
