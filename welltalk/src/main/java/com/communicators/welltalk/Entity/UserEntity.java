@@ -59,7 +59,6 @@ public class UserEntity implements UserDetails {
     @Enumerated(value = EnumType.STRING)
     Role role;
 
-
     public Role getRole() {
         return role;
     }
@@ -75,11 +74,11 @@ public class UserEntity implements UserDetails {
     // Role customRole;
 
     // public Role getCustomRole() {
-    //     return customRole;
+    // return customRole;
     // }
 
     // public void setCustomRole(Role customRole) {
-    //     this.customRole = customRole;
+    // this.customRole = customRole;
     // }
 
     public UserEntity() {
@@ -190,7 +189,6 @@ public class UserEntity implements UserDetails {
     public LocalDateTime getDateOfModification() {
         return dateOfModification;
     }
-
 
     public void setIsDeleted(boolean isDeleted) {
         this.isDeleted = isDeleted;
