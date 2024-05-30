@@ -33,6 +33,7 @@ public class ReferralService {
     public ReferralEntity saveReferral(int teacherId, ReferralEntity referral) {
         TeacherEntity teacher = teacherService.getTeacherById(teacherId);
         referral.setTeacher(teacher);
+        referral.setStatus("Pending");
 
         return referralRepository.save(referral);
     }
