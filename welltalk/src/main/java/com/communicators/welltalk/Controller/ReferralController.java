@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
@@ -47,8 +48,9 @@ public class ReferralController {
     }
 
     @PostMapping("/createReferral")
-    public ResponseEntity<ReferralEntity> insertReferral(@RequestBody ReferralEntity referral) {
-        ReferralEntity newReferral = referralService.saveReferral(referral);
+    public ResponseEntity<ReferralEntity> insertReferral(@RequestParam int teacherId,
+            @RequestBody ReferralEntity referral) {
+        ReferralEntity newReferral = referralService.saveReferral(teacherId, referral);
         return new ResponseEntity<>(newReferral, HttpStatus.CREATED);
     }
 

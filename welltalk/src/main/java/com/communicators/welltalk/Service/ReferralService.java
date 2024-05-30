@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.communicators.welltalk.Entity.ReferralEntity;
+import com.communicators.welltalk.Entity.TeacherEntity;
 import com.communicators.welltalk.Repository.ReferralRepository;
 
 @Service
@@ -13,6 +14,9 @@ public class ReferralService {
 
     @Autowired
     ReferralRepository referralRepository;
+
+    @Autowired
+    TeacherService teacherService;
 
     public List<ReferralEntity> getAllReferrals() {
         return referralRepository.findByIsDeletedFalse();
@@ -26,7 +30,10 @@ public class ReferralService {
         return referralRepository.findByTeacher_IdAndIsDeletedFalse(id);
     }
 
-    public ReferralEntity saveReferral(ReferralEntity referral) {
+    public ReferralEntity saveReferral(int teacherId, ReferralEntity referral) {
+        TeacherEntity teacher = teacherService.getTeacherById(teacherId);
+        referral.setTeacher(teacher);
+
         return referralRepository.save(referral);
     }
 
