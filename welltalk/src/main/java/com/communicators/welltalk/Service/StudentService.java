@@ -66,4 +66,12 @@ public class StudentService {
             return true;
         }
     }
+
+    public boolean doesStudentExist(String studentId) {
+        return studentRepository.existsByIdNumberAndIsDeletedFalse(studentId);
+    }
+
+    public StudentEntity getStudentByStudentId(String studentId) {
+        return studentRepository.findByIdNumberAndIsDeletedFalse(studentId);
+    }
 }

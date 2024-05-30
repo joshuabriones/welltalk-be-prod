@@ -6,7 +6,10 @@ import org.springframework.stereotype.Service;
 import com.communicators.welltalk.Repository.AppointmentRepository;
 import com.communicators.welltalk.Entity.AppointmentEntity;
 import com.communicators.welltalk.Entity.CounselorEntity;
+import com.communicators.welltalk.Entity.ReferralEntity;
 import com.communicators.welltalk.Entity.StudentEntity;
+import com.communicators.welltalk.Repository.ReferralRepository;
+import com.communicators.welltalk.Entity.Role;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -27,6 +30,12 @@ public class AppointmentService {
     @Autowired
     EmailService emailService;
 
+    @Autowired
+    ReferralRepository referralRepository;
+
+    @Autowired
+    AuthenticationService authenticationService;
+
     public AppointmentEntity saveAppointment(int id, AppointmentEntity appointment) {
         if (checkAppointmentIsTaken(appointment.getAppointmentDate(), appointment.getAppointmentStartTime())) {
             throw new IllegalArgumentException("Date and Time is already taken");
@@ -46,6 +55,43 @@ public class AppointmentService {
 
         emailService.sendSimpleMessage(appointmentCreated.getStudent().getInstitutionalEmail(), "Appointment Created",
                 message);
+
+        return appointmentCreated;
+    }
+
+    public AppointmentEntity saveReferralAppointment(int referralId, AppointmentEntity appointment) {
+        if (checkAppointmentIsTaken(appointment.getAppointmentDate(), appointment.getAppointmentStartTime())) {
+            throw new IllegalArgumentException("Date and Time is already taken");
+        }
+
+        ReferralEntity referral = referralRepository.findByReferralIdAndIsDeletedFalse(referralId);
+        if (referral == null) {
+            throw new IllegalArgumentException("Referral with ID " + referralId + " does not exist or is deleted.");
+        }
+        appointment.setReferral(referral);
+
+        StudentEntity student;
+
+        if (studentService.doesStudentExist(referral.getStudentId())) {
+            student = studentService.getStudentByStudentId(referral.getStudentId());
+        } else {
+            StudentEntity studentToCreate = new StudentEntity();
+            studentToCreate.setIdNumber(referral.getStudentId());
+            studentToCreate.setInstitutionalEmail(referral.getStudentEmail());
+            studentToCreate.setFirstName(referral.getStudentFirstName());
+            studentToCreate.setLastName(referral.getStudentLastName());
+            studentToCreate.setIsDeleted(false);
+            studentToCreate.setPassword("12345678");
+            studentToCreate.setRole(Role.student);
+
+            student = authenticationService.registerStudent(studentToCreate);
+        }
+
+        appointment.setStudent(student);
+        appointment.setAppointmentStatus("Pending");
+        appointment.getReferral().setStatus("Accepted");
+
+        AppointmentEntity appointmentCreated = appointmentRepository.save(appointment);
 
         return appointmentCreated;
     }

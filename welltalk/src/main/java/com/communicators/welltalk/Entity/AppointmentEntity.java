@@ -28,6 +28,10 @@ public class AppointmentEntity {
     @JoinColumn(name = "counselorId", referencedColumnName = "id")
     private CounselorEntity counselor;
 
+    @ManyToOne
+    @JoinColumn(name = "referralId", referencedColumnName = "referralId", nullable = true)
+    private ReferralEntity referral;
+
     private LocalDate appointmentDate;
 
     private String appointmentStartTime;
@@ -169,6 +173,14 @@ public class AppointmentEntity {
 
     public void setAppointmentModified(LocalDate appointmentModified) {
         this.appointmentModified = appointmentModified;
+    }
+
+    public ReferralEntity getReferral() {
+        return referral;
+    }
+
+    public void setReferral(ReferralEntity referral) {
+        this.referral = referral;
     }
 
     @PrePersist
