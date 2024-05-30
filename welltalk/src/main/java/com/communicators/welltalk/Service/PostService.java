@@ -2,7 +2,7 @@ package com.communicators.welltalk.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.data.domain.Sort;
 import com.communicators.welltalk.Repository.PostRepository;
 import com.communicators.welltalk.Entity.PostEntity;
 
@@ -18,7 +18,8 @@ public class PostService {
     CounselorService counselorService;
 
     public List<PostEntity> getAllPosts() {
-        return postRepository.findByIsDeletedFalse();
+        Sort sort = Sort.by(Sort.Order.desc("postDate"), Sort.Order.desc("postTime"));
+        return postRepository.findByIsDeletedFalse(sort);
     }
 
     public PostEntity getPostById(int id) {
