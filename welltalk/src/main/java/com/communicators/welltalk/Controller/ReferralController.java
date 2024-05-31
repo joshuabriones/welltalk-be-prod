@@ -47,6 +47,12 @@ public class ReferralController {
         return new ResponseEntity<>(referrals, HttpStatus.OK);
     }
 
+    @PutMapping("/markReferralAsAccepted")
+    public ResponseEntity<ReferralEntity> markReferralAsAccepted(@RequestParam int id) {
+        ReferralEntity updatedReferral = referralService.markReferralAsAccepted(id);
+        return new ResponseEntity<>(updatedReferral, HttpStatus.OK);
+    }
+
     @PostMapping("/createReferral")
     public ResponseEntity<ReferralEntity> insertReferral(@RequestParam int teacherId,
             @RequestBody ReferralEntity referral) {

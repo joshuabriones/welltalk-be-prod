@@ -51,14 +51,18 @@ public class InquiryService {
         InquiryEntity inquiryToUpdate = inquiryRepository.findByInquiryIdAndIsDeletedFalse(id).get();
         inquiryToUpdate.setCounselor(userService.getUserById(counselorId));
         inquiryToUpdate.setCounselorReply(inquiry.getCounselorReply());
+        inquiryToUpdate.setStatus(true);
 
         InquiryEntity success = inquiryRepository.save(inquiryToUpdate);
 
-        String message = "You have a new reply from your counselor. Subject: " + inquiryToUpdate.getSubject()
-                + " Message: " + inquiryToUpdate.getCounselorReply();
+        if (success != null) {
+            String message = "You have a new reply from your counselor("
+                    + success.getCounselor().getInstitutionalEmail() + "). Subject: " + inquiryToUpdate.getSubject()
+                    + " Message: " + inquiryToUpdate.getCounselorReply();
 
-        emailService.sendSimpleMessage(inquiryToUpdate.getSender().getInstitutionalEmail(), "Reply from Inquiry",
-                message);
+            emailService.sendSimpleMessage(inquiryToUpdate.getSender().getInstitutionalEmail(), "Reply from Inquiry",
+                    message);
+        }
 
         return success;
     }

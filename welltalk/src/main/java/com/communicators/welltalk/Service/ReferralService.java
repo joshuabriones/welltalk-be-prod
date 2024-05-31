@@ -38,6 +38,12 @@ public class ReferralService {
         return referralRepository.save(referral);
     }
 
+    public ReferralEntity markReferralAsAccepted(int id) {
+        ReferralEntity referral = referralRepository.findByReferralIdAndIsDeletedFalse(id);
+        referral.setStatus("Accepted");
+        return referralRepository.save(referral);
+    }
+
     @SuppressWarnings("finally")
     public ReferralEntity updateReferral(int id, ReferralEntity referral) {
         ReferralEntity referralToUpdate = new ReferralEntity();
