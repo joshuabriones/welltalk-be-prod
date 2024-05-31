@@ -1,12 +1,12 @@
 package com.communicators.welltalk.Service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.communicators.welltalk.Entity.StudentEntity;
 import com.communicators.welltalk.Repository.StudentRepository;
-
-import java.util.List;
 
 @Service
 public class StudentService {
@@ -44,6 +44,7 @@ public class StudentService {
             studentToUpdate.setBirthDate(student.getBirthDate());
             studentToUpdate.setContactNumber(student.getContactNumber());
             studentToUpdate.setSpecificAddress(student.getSpecificAddress());
+            studentToUpdate.setBarangay(student.getBarangay());
             studentToUpdate.setCity(student.getCity());
             studentToUpdate.setProvince(student.getProvince());
             studentToUpdate.setZipCode(student.getZipCode());
