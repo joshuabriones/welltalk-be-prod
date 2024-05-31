@@ -78,7 +78,7 @@ public class UserController {
         String token = UUID.randomUUID().toString();
         passwordReset.createPasswordResetTokenForUser(user, token);
 
-        String message = "Here is the link to reset your password: " + token;
+        String message = "Here is the link to reset your password: http://localhost:3000/" + token + "/changepassword";
 
         emailService.sendSimpleMessage(
                 email,
