@@ -1,19 +1,20 @@
 package com.communicators.welltalk.Service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.communicators.welltalk.Repository.AppointmentRepository;
-import com.communicators.welltalk.Entity.AppointmentEntity;
-import com.communicators.welltalk.Entity.CounselorEntity;
-import com.communicators.welltalk.Entity.ReferralEntity;
-import com.communicators.welltalk.Entity.StudentEntity;
-import com.communicators.welltalk.Repository.ReferralRepository;
-import com.communicators.welltalk.Entity.Role;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+
+import com.communicators.welltalk.Entity.AppointmentEntity;
+import com.communicators.welltalk.Entity.CounselorEntity;
+import com.communicators.welltalk.Entity.ReferralEntity;
+import com.communicators.welltalk.Entity.Role;
+import com.communicators.welltalk.Entity.StudentEntity;
+import com.communicators.welltalk.Repository.AppointmentRepository;
+import com.communicators.welltalk.Repository.ReferralRepository;
 
 @Service
 public class AppointmentService {
@@ -133,7 +134,8 @@ public class AppointmentService {
     }
 
     public List<AppointmentEntity> getAllAppointments() {
-        return appointmentRepository.findByIsDeletedFalse();
+        Sort sort = Sort.by(Sort.Direction.ASC, "appointmentDate", "appointmentStartTime");
+        return appointmentRepository.findByIsDeletedFalse(sort);
     }
 
     public AppointmentEntity getAppointmentByAppointmentId(int id) {

@@ -2,7 +2,7 @@ package com.communicators.welltalk.Repository;
 
 import com.communicators.welltalk.Entity.AppointmentEntity;
 import com.communicators.welltalk.Entity.StudentEntity;
-
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Repository
 public interface AppointmentRepository extends JpaRepository<AppointmentEntity, Integer> {
-    List<AppointmentEntity> findByIsDeletedFalse();
+    List<AppointmentEntity> findByIsDeletedFalse(Sort sort);
 
     Optional<AppointmentEntity> findByAppointmentIdAndIsDeletedFalse(int id);
 
