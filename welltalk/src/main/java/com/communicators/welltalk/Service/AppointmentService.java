@@ -52,7 +52,7 @@ public class AppointmentService {
                     .findByStudentIdAndIsDeletedFalse(appointment.getStudent().getIdNumber());
             if (referral != null) {
                 System.out.print("Referral founder" + referral.getStudentEmail());
-0
+
                 String messageToTeacher = "An appointment has been made for the student you referred. Student: "
                         + appointment.getReferral().getStudentFirstName()
                         + " " + appointment.getReferral().getStudentLastName() + " Email: "
