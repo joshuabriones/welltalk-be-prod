@@ -38,6 +38,10 @@ public class ReferralEntity {
 
     private String studentLastName;
 
+    private String studentCollege;
+
+    private String studentProgram;
+
     private String reason;
 
     private String status;
@@ -56,7 +60,7 @@ public class ReferralEntity {
     }
 
     public ReferralEntity(TeacherEntity teacher, String studentId, String studentEmail, String studentFirstName,
-            String studentLastName, String reason, String status) {
+            String studentLastName, String reason, String status, String studentCollege, String studentProgram) {
         this.teacher = teacher;
         this.studentId = studentId;
         this.studentEmail = studentEmail;
@@ -64,6 +68,8 @@ public class ReferralEntity {
         this.studentLastName = studentLastName;
         this.reason = reason;
         this.status = status;
+        this.studentCollege = studentCollege;
+        this.studentProgram = studentProgram;
     }
 
     public int getReferralId() {
@@ -112,6 +118,22 @@ public class ReferralEntity {
 
     public void setStudentLastName(String studentLastName) {
         this.studentLastName = studentLastName;
+    }
+
+    public String getStudentCollege() {
+        return studentCollege;
+    }
+
+    public void setStudentCollege(String studentCollege) {
+        this.studentCollege = studentCollege;
+    }
+
+    public String getStudentProgram() {
+        return studentProgram;
+    }
+
+    public void setStudentProgram(String studentProgram) {
+        this.studentProgram = studentProgram;
     }
 
     public String getReason() {

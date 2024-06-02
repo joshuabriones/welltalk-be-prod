@@ -70,17 +70,6 @@ public class UserEntity implements UserDetails {
     @Column(name = "isDeleted")
     private boolean isDeleted;
 
-    // @Enumerated(value = EnumType.STRING)
-    // Role customRole;
-
-    // public Role getCustomRole() {
-    // return customRole;
-    // }
-
-    // public void setCustomRole(Role customRole) {
-    // this.customRole = customRole;
-    // }
-
     public UserEntity() {
 
     }

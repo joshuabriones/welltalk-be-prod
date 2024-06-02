@@ -15,4 +15,6 @@ public interface ReferralRepository extends JpaRepository<ReferralEntity, Intege
     ReferralEntity findByReferralIdAndIsDeletedFalse(int id);
 
     List<ReferralEntity> findByTeacher_IdAndIsDeletedFalse(int id);
+
+    ReferralEntity findByStudentIdAndIsDeletedFalse(String studentId);
 }

@@ -47,6 +47,25 @@ public class AppointmentService {
         appointment.setStudent(student);
         appointment.setAppointmentStatus("Pending");
 
+        if (appointment.getAppointmentType().equals("Referral")) {
+            ReferralEntity referral = referralRepository
+                    .findByStudentIdAndIsDeletedFalse(appointment.getStudent().getIdNumber());
+            if (referral != null) {
+                System.out.print("Referral founder" + referral.getStudentEmail());
+0
+                String messageToTeacher = "An appointment has been made for the student you referred. Student: "
+                        + appointment.getReferral().getStudentFirstName()
+                        + " " + appointment.getReferral().getStudentLastName() + " Email: "
+                        + appointment.getReferral().getStudentEmail();
+
+                emailService.sendSimpleMessage(appointment.getReferral().getTeacher().getInstitutionalEmail(),
+                        "Appointment Created", messageToTeacher);
+
+                referral.setStatus("Appointment");
+                referralRepository.save(referral);
+            }
+        }
+
         AppointmentEntity appointmentCreated = appointmentRepository.save(appointment);
 
         String message = "An appointment has been created for you. Date: " + appointment.getAppointmentDate()
@@ -122,6 +141,15 @@ public class AppointmentService {
 
         emailService.sendSimpleMessage(appointment.getStudent().getInstitutionalEmail(), "Counselor Assigned", message);
 
+        if (appointment.getReferral() != null) {
+            String messageToTeacher = "The student you referred has been assigned to a counselor. Student: "
+                    + appointment.getStudent().getFirstName()
+                    + " " + appointment.getStudent().getLastName() + " Email: "
+                    + appointment.getStudent().getInstitutionalEmail();
+            emailService.sendSimpleMessage(appointment.getReferral().getTeacher().getInstitutionalEmail(),
+                    "Assigned to a Counselor", messageToTeacher);
+        }
+
         return appointmentRepository.save(appointment);
     }
 
@@ -182,6 +210,25 @@ public class AppointmentService {
         appointment.setAppointmentAdditionalNotes(additionalNotes);
 
         // add email part
+        String message = "Congratulations on completing you appointment. Feedback: " + notes + " Additional Notes: "
+                + additionalNotes;
+
+        emailService.sendSimpleMessage(appointment.getStudent().getInstitutionalEmail(), "Appointment Completed",
+                message);
+
+        if (appointment.getReferral() != null) {
+            ReferralEntity referral = appointment.getReferral();
+            String messageToTeacher = "The student you referred has completed their appointment. Student: "
+                    + appointment.getStudent().getFirstName()
+                    + " " + appointment.getStudent().getLastName() + " Email: "
+                    + appointment.getStudent().getInstitutionalEmail() + " Feedback: " + notes + " Additional Notes: "
+                    + additionalNotes;
+            emailService.sendSimpleMessage(appointment.getReferral().getTeacher().getInstitutionalEmail(),
+                    "Appointment Completed", messageToTeacher);
+
+            referral.setStatus("Completed");
+            referralRepository.save(referral);
+        }
 
         return appointmentRepository.save(appointment);
     }
@@ -191,6 +238,28 @@ public class AppointmentService {
         if (appointment != null) {
             appointment.setAppointmentStatus("Cancelled");
             appointment.setIsDeleted(true);
+
+            String message = "Appointment has been cancelled. Date: " + appointment.getAppointmentDate()
+                    + " Time: "
+                    + appointment.getAppointmentStartTime() + " Purpose: " + appointment.getAppointmentPurpose()
+                    + " Type: "
+                    + appointment.getAppointmentType();
+
+            emailService.sendSimpleMessage(appointment.getStudent().getInstitutionalEmail(), "Appointment Cancelled",
+                    message);
+
+            if (appointment.getReferral() != null) {
+                ReferralEntity referral = appointment.getReferral();
+                String messageToTeacher = "The appointment for the student you referred has been cancelled. Student: "
+                        + appointment.getStudent().getFirstName()
+                        + " " + appointment.getStudent().getLastName() + " Email: "
+                        + appointment.getStudent().getInstitutionalEmail();
+                emailService.sendSimpleMessage(appointment.getReferral().getTeacher().getInstitutionalEmail(),
+                        "Appointment Cancelled", messageToTeacher);
+                referral.setStatus("Cancelled Appointment");
+                referralRepository.save(referral);
+            }
+
             appointmentRepository.save(appointment);
             return true;
         } else {
