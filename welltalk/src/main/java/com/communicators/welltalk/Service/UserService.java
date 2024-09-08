@@ -18,7 +18,7 @@ public class UserService implements UserDetailsService {
     UserRepository userRepository;
 
     public List<UserEntity> getAllUsers() {
-        return userRepository.findAll();
+        return userRepository.findByIsDeletedFalseAndIsVerifiedFalse();
     }
 
     public boolean existsByEmail(String institutionalEmail) {
@@ -68,6 +68,18 @@ public class UserService implements UserDetailsService {
         UserEntity user = userRepository.findById(id).get();
         if (user != null) {
             user.setIsDeleted(true);
+            userRepository.save(user);
+            return true;
+        } else {
+            System.out.println("User " + id + " does not exist.");
+            return false;
+        }
+    }
+
+    public boolean verifyUserAccount(int id){
+        UserEntity user = userRepository.findById(id).get();
+        if (user != null) {
+            user.setIsVerified(true);
             userRepository.save(user);
             return true;
         } else {

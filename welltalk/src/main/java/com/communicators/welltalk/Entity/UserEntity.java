@@ -59,16 +59,11 @@ public class UserEntity implements UserDetails {
     @Enumerated(value = EnumType.STRING)
     Role role;
 
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
     @Column(name = "isDeleted")
     private boolean isDeleted;
+
+    @Column(name = "isVerified")
+    private boolean isVerified;
 
     public UserEntity() {
 
@@ -84,6 +79,7 @@ public class UserEntity implements UserDetails {
         this.password = password;
         this.image = image;
         isDeleted = false;
+        isVerified = false;
     }
 
     public UserEntity(String institutionalEmail, String idNumber, String firstName, String lastName, String gender,
@@ -95,6 +91,7 @@ public class UserEntity implements UserDetails {
         this.gender = gender;
         this.password = password;
         isDeleted = false;
+        isVerified = false;
     }
 
     public void setId(int id) {
@@ -160,6 +157,24 @@ public class UserEntity implements UserDetails {
     public String getImage() {
         return image;
     }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public boolean getIsVerified() {
+        return isVerified;
+    }
+
+    public void setIsVerified(boolean isVerified) {
+        this.isVerified = isVerified;
+    }
+
+
 
     @PrePersist
     protected void onCreate() {

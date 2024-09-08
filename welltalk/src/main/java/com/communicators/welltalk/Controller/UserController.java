@@ -142,6 +142,16 @@ public class UserController {
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
+    @PutMapping("/verifyUserAccount/{id}")
+    public ResponseEntity<Void> verifyUserAccount(@PathVariable int id) {
+        boolean isVerified = userService.verifyUserAccount(id);
+        if (isVerified) {
+            return new ResponseEntity<>( HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @DeleteMapping("/deleteUser/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable int id) {
         boolean deleted = userService.deleteUser(id);
