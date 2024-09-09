@@ -12,7 +12,9 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     List<UserEntity> findByIsDeletedFalse();
 
-    List<UserEntity> findByIsDeletedFalseAndIsVerifiedFalse();
+    // List<UserEntity> findByIsDeletedFalseAndIsVerifiedFalse();
+    
+    List<UserEntity> findByIsDeletedFalseAndIsVerifiedTrue();
     
     Optional<UserEntity> findByIdAndIsDeletedFalse(int id);
 
