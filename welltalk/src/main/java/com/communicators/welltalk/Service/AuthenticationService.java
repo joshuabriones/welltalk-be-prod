@@ -1,20 +1,25 @@
 package com.communicators.welltalk.Service;
 
+import java.util.List;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.communicators.welltalk.Entity.AssignedCounselorEntity;
 import com.communicators.welltalk.Entity.AuthenticationResponse;
 import com.communicators.welltalk.Entity.CounselorEntity;
+import com.communicators.welltalk.Entity.StudentEntity;
+import com.communicators.welltalk.Entity.TeacherEntity;
 import com.communicators.welltalk.Entity.UserEntity;
+import com.communicators.welltalk.Repository.AssignedCounselorRepository;
 import com.communicators.welltalk.Repository.CounselorRepository;
 import com.communicators.welltalk.Repository.StudentRepository;
 import com.communicators.welltalk.Repository.TeacherRepository;
 import com.communicators.welltalk.Repository.UserRepository;
 import com.communicators.welltalk.dto.PasswordChangeDTO;
-import com.communicators.welltalk.Entity.StudentEntity;
-import com.communicators.welltalk.Entity.TeacherEntity;
+
 
 @Service
 public class AuthenticationService {
@@ -26,10 +31,13 @@ public class AuthenticationService {
     private final TeacherRepository teacherRepository;
     private final CounselorRepository counselorRepository;
     private final AuthenticationManager authenticationManager;
+    private final AssignCounselorService assignmentService;
+    
 
     public AuthenticationService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService,
             AuthenticationManager authenticationManager, StudentRepository studentRepository,
-            TeacherRepository teacherRepository, CounselorRepository counselorRepository) {
+            TeacherRepository teacherRepository, CounselorRepository counselorRepository,
+            AssignCounselorService assignmentService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
@@ -37,6 +45,7 @@ public class AuthenticationService {
         this.studentRepository = studentRepository;
         this.teacherRepository = teacherRepository;
         this.counselorRepository = counselorRepository;
+        this.assignmentService = assignmentService;
     }
 
     public boolean existsByEmail(String institutionalEmail) {
@@ -58,6 +67,8 @@ public class AuthenticationService {
 
         user = userRepository.save(request);
 
+        assignmentService.assignCounselorIfVerified(user);
+
         return user;
     }
 
@@ -76,6 +87,8 @@ public class AuthenticationService {
 
         student = studentRepository.save(request);
 
+        assignmentService.assignCounselorIfVerified(student); 
+
         return student;
     }
 
@@ -93,6 +106,8 @@ public class AuthenticationService {
         request.setPassword(passwordEncoder.encode(request.getPassword()));
 
         teacher = teacherRepository.save(request);
+
+        assignmentService.assignCounselorIfVerified(teacher);
 
         return teacher;
     }
@@ -148,5 +163,6 @@ public class AuthenticationService {
         userRepository.save(user);
         return true;
     }
+
 
 }

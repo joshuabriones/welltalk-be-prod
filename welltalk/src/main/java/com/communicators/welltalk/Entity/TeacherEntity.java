@@ -1,6 +1,5 @@
 package com.communicators.welltalk.Entity;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -28,10 +27,10 @@ public class TeacherEntity extends UserEntity {
     }
 
     // public String getCollege() {
-    //     return college;
+    // return college;
     // }
 
-    public void setCollege(String college) {
-        // this.college = college;
-    }
+    // public void setCollege(String college) {
+    // this.college = college;
+    // }
 }
