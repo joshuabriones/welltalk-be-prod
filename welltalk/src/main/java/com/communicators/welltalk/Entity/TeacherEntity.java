@@ -8,30 +8,30 @@ import javax.persistence.Table;
 @Table(name = "tblteacher")
 public class TeacherEntity extends UserEntity {
 
-    @Column(name = "collge")
-    private String college;
+    // @Column(name = "collge")
+    // private String college;
 
     public TeacherEntity() {
 
     }
 
     public TeacherEntity(String institutionalEmail, String idNumber, String firstName, String lastName, String gender,
-            String password, String image, String role, String college) {
-        super(institutionalEmail, idNumber, firstName, lastName, gender, password, image, role);
-        this.college = college;
+            String password, String image, String role, String college, String program) {
+        super(institutionalEmail, idNumber, firstName, lastName, gender, password, image, role, college, program);
+        // this.college = college;
     }
 
     public TeacherEntity(String institutionalEmail, String idNumber, String firstName, String lastName,
-            String gender, String password, String role, String college) {
-        super(institutionalEmail, idNumber, firstName, lastName, gender, password, role);
-        this.college = college;
+            String gender, String password, String role, String college, String program) {
+        super(institutionalEmail, idNumber, firstName, lastName, gender, password, role, college, program);
+        // this.college = college;
     }
 
-    public String getCollege() {
-        return college;
-    }
+    // public String getCollege() {
+    //     return college;
+    // }
 
     public void setCollege(String college) {
-        this.college = college;
+        // this.college = college;
     }
 }
