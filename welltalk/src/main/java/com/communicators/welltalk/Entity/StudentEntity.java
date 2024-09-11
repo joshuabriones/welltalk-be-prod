@@ -26,11 +26,18 @@ public class StudentEntity extends UserEntity {
     @Column(name = "contactNumber")
     private String contactNumber;
 
-    private String specificAddress;
-    private String barangay;
-    private String city;
-    private String province;
-    private String zipCode;
+    @Column(name = "permanentAddress")
+    private String permanentAddress;
+
+    @Column(name = "guardianName", nullable = true)
+    private String guardianName;
+
+    @Column(name = "guardianContactNumber", nullable = true)
+    private String guardianContactNumber;
+
+    @Column(name = "guardianEmailAddress", nullable = true)
+    private String guardianEmailAddress;
+
 
     public StudentEntity() {
 
@@ -38,36 +45,31 @@ public class StudentEntity extends UserEntity {
 
     public StudentEntity(String institutionalEmail, String idNumber, String firstName, String lastName, String gender,
             String password, String image, String role, String college, String program, int year, LocalDate birthDate,
-            String contactNumber, String specificAddress, String barangay, String city, String province,
-            String zipCode) {
+            String contactNumber, String permanentAddress, String guardianName, String guardianContactNumber, String guardianEmailAddress) {
         super(institutionalEmail, idNumber, firstName, lastName, gender, password, image, role);
         this.college = college;
         this.program = program;
         this.year = year;
         this.birthDate = birthDate;
         this.contactNumber = contactNumber;
-        this.specificAddress = specificAddress;
-        this.barangay = barangay;
-        this.city = city;
-        this.province = province;
-        this.zipCode = zipCode;
+        this.permanentAddress = permanentAddress;
+        
+        // Sets to null first
+        this.guardianName = guardianName;
+        this.guardianContactNumber = guardianContactNumber;
+        this.guardianEmailAddress = guardianEmailAddress;
     }
 
     public StudentEntity(int teacherId, String institutionalEmail, String idNumber, String firstName, String lastName,
             String gender, String password, String role, String college, String program, int year, LocalDate birthDate,
-            String contactNumber, String specificAddress, String barangay, String city, String province,
-            String zipCode) {
+            String contactNumber, String permanentAddress) {
         super(institutionalEmail, idNumber, firstName, lastName, gender, password, role);
         this.college = college;
         this.program = program;
         this.year = year;
         this.birthDate = birthDate;
         this.contactNumber = contactNumber;
-        this.specificAddress = specificAddress;
-        this.barangay = barangay;
-        this.city = city;
-        this.province = province;
-        this.zipCode = zipCode;
+        this.permanentAddress = permanentAddress;
     }
 
     public String getCollege() {
@@ -110,44 +112,35 @@ public class StudentEntity extends UserEntity {
         this.contactNumber = contactNumber;
     }
 
-    public String getSpecificAddress() {
-        return specificAddress;
+    public String getPermanentAddress() {
+        return permanentAddress;
     }
 
-    public void setSpecificAddress(String specificAddress) {
-        this.specificAddress = specificAddress;
+    public void setPermanentAddress(String permanentAddress) {
+        this.permanentAddress = permanentAddress;
+    }
+ 
+    public String getGuardianName() {
+        return guardianName;
     }
 
-    public String getBarangay() {
-        return barangay;
+    public void setGuardianName(String guardianName) {
+        this.guardianName = guardianName;
     }
 
-    public void setBarangay(String barangay) {
-        this.barangay = barangay;
+    public String getGuardianContactNumber() {
+        return guardianContactNumber;
     }
 
-    public String getCity() {
-        return city;
+    public void setGuardianContactNumber(String guardianContactNumber) {
+        this.guardianContactNumber = guardianContactNumber;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public String getGuardianEmailAddress() {
+        return guardianEmailAddress;
     }
 
-    public String getProvince() {
-        return province;
+    public void setGuardianEmailAddress(String guardianEmailAddress) {
+        this.guardianEmailAddress = guardianEmailAddress;
     }
-
-    public void setProvince(String province) {
-        this.province = province;
-    }
-
-    public String getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
-
 }
