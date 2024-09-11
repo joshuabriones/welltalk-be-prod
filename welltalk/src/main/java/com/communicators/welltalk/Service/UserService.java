@@ -18,7 +18,11 @@ public class UserService implements UserDetailsService {
     UserRepository userRepository;
 
     public List<UserEntity> getAllUsers() {
-        return userRepository.findByIsDeletedFalseAndIsVerifiedFalse();
+        return userRepository.findByIsDeletedFalse();
+    }
+
+    public List<UserEntity> getAllVerifiedUsers() {
+        return userRepository.findByIsDeletedFalseAndIsVerifiedTrue();
     }
 
     public boolean existsByEmail(String institutionalEmail) {
@@ -29,9 +33,9 @@ public class UserService implements UserDetailsService {
         return userRepository.existsByIdNumber(idNumber);
     }
 
-    public List<UserEntity> getAllIsNotDeletedUsers() {
-        return userRepository.findByIsDeletedFalse();
-    }
+    // public List<UserEntity> getAllIsNotDeletedUsers() {
+    // return userRepository.findByIsDeletedFalse();
+    // }
 
     public UserEntity getUserById(int id) {
         return userRepository.findByIdAndIsDeletedFalse(id).get();
@@ -76,7 +80,7 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    public boolean verifyUserAccount(int id){
+    public boolean verifyUserAccount(int id) {
         UserEntity user = userRepository.findById(id).get();
         if (user != null) {
             user.setIsVerified(true);

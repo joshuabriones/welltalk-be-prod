@@ -118,6 +118,12 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+    @GetMapping("/getAllVerifiedUsers")
+    public ResponseEntity<List<UserEntity>> getAllVerifiedUsers() {
+        List<UserEntity> users = userService.getAllVerifiedUsers();
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
     @PutMapping("/changePassword")
     public ResponseEntity<?> changePassword(@RequestBody PasswordChangeDTO request) {
         return ResponseEntity.ok(authenticationService.changePassword(request));
