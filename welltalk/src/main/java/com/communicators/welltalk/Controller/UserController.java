@@ -118,6 +118,12 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+    @GetMapping("/getAllUnverifiedUsers")
+    public ResponseEntity<List<UserEntity>> getAllUnverifiedUsers() {
+        List<UserEntity> users = userService.getAllUnverifiedUsers();
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
     @GetMapping("/getAllVerifiedUsers")
     public ResponseEntity<List<UserEntity>> getAllVerifiedUsers() {
         List<UserEntity> users = userService.getAllVerifiedUsers();
