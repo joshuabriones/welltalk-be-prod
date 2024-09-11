@@ -37,7 +37,7 @@ public class AssignedCounselorService {
                 StudentEntity student = (StudentEntity) user;
                 List<CounselorEntity> counselors = counselorRepository.findByIsDeletedFalse();
                 for (CounselorEntity counselor : counselors) {
-                    if (counselor.getProgram().equals(student.getProgram()) &&
+                    if (counselor.getProgram().contains(student.getProgram()) &&
                             counselor.getCollege().equals(student.getCollege()) &&
                             counselor.getAssignedYear().contains(String.valueOf(student.getYear()))) {
 
@@ -55,7 +55,7 @@ public class AssignedCounselorService {
                 TeacherEntity teacher = (TeacherEntity) user;
                 List<CounselorEntity> counselors = counselorRepository.findByIsDeletedFalse();
                 for (CounselorEntity counselor : counselors) {
-                    if (counselor.getProgram().equals(teacher.getProgram()) &&
+                    if (counselor.getProgram().contains(teacher.getProgram()) &&
                             counselor.getCollege().equals(teacher.getCollege())) {
 
                         AssignedCounselorEntity assignedCounselor = new AssignedCounselorEntity();
