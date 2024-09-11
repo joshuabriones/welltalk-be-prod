@@ -152,7 +152,7 @@ public class UserController {
     public ResponseEntity<Void> verifyUserAccount(@PathVariable int id) {
         boolean isVerified = userService.verifyUserAccount(id);
         if (isVerified) {
-            return new ResponseEntity<>( HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -165,6 +165,16 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/validateChangePasswordToken")
+    public ResponseEntity<?> validateChangePasswordToken(@RequestParam String token) {
+        boolean isValid = passwordReset.validatePasswordResetToken(token);
+        if (isValid) {
+            return ResponseEntity.ok("Token is valid");
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Token is invalid");
         }
     }
 }
