@@ -43,6 +43,7 @@ public class CounselorService {
             counselorToUpdate.setGender(counselor.getGender());
             // counselorToUpdate.setPassword(counselor.getPassword());
             counselorToUpdate.setImage(counselor.getImage());
+            
         } catch (NoSuchElementException e) {
             throw new NoSuchElementException("Counselor " + id + " does not exist.");
         } finally {
