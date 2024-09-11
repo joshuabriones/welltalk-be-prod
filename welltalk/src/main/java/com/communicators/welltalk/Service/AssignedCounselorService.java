@@ -37,8 +37,8 @@ public class AssignedCounselorService {
                 StudentEntity student = (StudentEntity) user;
                 List<CounselorEntity> counselors = counselorRepository.findByIsDeletedFalse();
                 for (CounselorEntity counselor : counselors) {
-                    if (counselor.getProgram().equals(student.getProgram()) &&
-                            counselor.getCollege().equals(student.getCollege()) &&
+                    if (counselor.getProgram().equals(student.getProgram()) ||
+                            counselor.getCollege().equals(student.getCollege()) ||
                             counselor.getAssignedYear().equals(String.valueOf(student.getYear()))) {
 
                         AssignedCounselorEntity assignedCounselor = new AssignedCounselorEntity();
@@ -49,14 +49,13 @@ public class AssignedCounselorService {
                         assignedCounselor.setCollege(student.getCollege());
 
                         assignedCounselorRepository.save(assignedCounselor);
-                        break;
                     }
                 }
             } else if (user instanceof TeacherEntity) {
                 TeacherEntity teacher = (TeacherEntity) user;
                 List<CounselorEntity> counselors = counselorRepository.findByIsDeletedFalse();
                 for (CounselorEntity counselor : counselors) {
-                    if (counselor.getProgram().equals(teacher.getProgram()) &&
+                    if (counselor.getProgram().equals(teacher.getProgram()) ||
                             counselor.getCollege().equals(teacher.getCollege())) {
 
                         AssignedCounselorEntity assignedCounselor = new AssignedCounselorEntity();
@@ -66,7 +65,6 @@ public class AssignedCounselorService {
                         assignedCounselor.setCollege(teacher.getCollege());
 
                         assignedCounselorRepository.save(assignedCounselor);
-                        break;
                     }
                 }
             }
