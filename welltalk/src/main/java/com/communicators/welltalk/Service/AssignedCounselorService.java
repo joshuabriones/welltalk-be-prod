@@ -14,7 +14,7 @@ import com.communicators.welltalk.Repository.AssignedCounselorRepository;
 import com.communicators.welltalk.Repository.CounselorRepository;
 
 @Service
-public class AssignCounselorService {
+public class AssignedCounselorService {
 
     @Autowired
     CounselorRepository counselorRepository;
@@ -62,5 +62,9 @@ public class AssignCounselorService {
                 }
             }
         }
+    }
+
+    public List<AssignedCounselorEntity> getByCounselorId(int counselorId) {
+        return assignedCounselorRepository.findByCounselorId(counselorId);
     }
 }

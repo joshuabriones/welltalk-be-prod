@@ -1,18 +1,17 @@
 package com.communicators.welltalk.Service;
 
+import java.util.List;
+import java.util.NoSuchElementException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.communicators.welltalk.Entity.AssignedCounselorEntity;
 import com.communicators.welltalk.Entity.AssignedCounselorEntity;
 import com.communicators.welltalk.Entity.CounselorEntity;
 import com.communicators.welltalk.Entity.StudentEntity;
 import com.communicators.welltalk.Entity.TeacherEntity;
 import com.communicators.welltalk.Repository.AssignedCounselorRepository;
 import com.communicators.welltalk.Repository.CounselorRepository;
-
-import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class CounselorService {
@@ -39,12 +38,12 @@ public class CounselorService {
         return counselorRepository.findByInstitutionalEmailAndIsDeletedFalse(email).get();
     }
 
-        public void assignCounselor(StudentEntity student, TeacherEntity teacher) {
+    public void assignCounselor(StudentEntity student, TeacherEntity teacher) {
         List<CounselorEntity> counselors = counselorRepository.findByIsDeletedFalse();
         for (CounselorEntity counselor : counselors) {
             if (counselor.getProgram().equals(student.getProgram()) &&
-                counselor.getCollege().equals(student.getCollege()) &&
-                counselor.getAssignedYear().equals(String.valueOf(student.getYear()))) {
+                    counselor.getCollege().equals(student.getCollege()) &&
+                    counselor.getAssignedYear().equals(String.valueOf(student.getYear()))) {
 
                 AssignedCounselorEntity assignedCounselor = new AssignedCounselorEntity();
                 assignedCounselor.setStudentId(student.getId());
@@ -59,7 +58,6 @@ public class CounselorService {
             }
         }
     }
-
 
     @SuppressWarnings("finally")
     public CounselorEntity updateCounselor(int id, CounselorEntity counselor) {
@@ -91,8 +89,5 @@ public class CounselorService {
             return false;
         }
     }
-
-
-
 
 }

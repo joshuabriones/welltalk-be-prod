@@ -1,25 +1,20 @@
 package com.communicators.welltalk.Service;
 
-import java.util.List;
-
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.communicators.welltalk.Entity.AssignedCounselorEntity;
 import com.communicators.welltalk.Entity.AuthenticationResponse;
 import com.communicators.welltalk.Entity.CounselorEntity;
 import com.communicators.welltalk.Entity.StudentEntity;
 import com.communicators.welltalk.Entity.TeacherEntity;
 import com.communicators.welltalk.Entity.UserEntity;
-import com.communicators.welltalk.Repository.AssignedCounselorRepository;
 import com.communicators.welltalk.Repository.CounselorRepository;
 import com.communicators.welltalk.Repository.StudentRepository;
 import com.communicators.welltalk.Repository.TeacherRepository;
 import com.communicators.welltalk.Repository.UserRepository;
 import com.communicators.welltalk.dto.PasswordChangeDTO;
-
 
 @Service
 public class AuthenticationService {
@@ -31,13 +26,12 @@ public class AuthenticationService {
     private final TeacherRepository teacherRepository;
     private final CounselorRepository counselorRepository;
     private final AuthenticationManager authenticationManager;
-    private final AssignCounselorService assignmentService;
-    
+    private final AssignedCounselorService assignmentService;
 
     public AuthenticationService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService,
             AuthenticationManager authenticationManager, StudentRepository studentRepository,
             TeacherRepository teacherRepository, CounselorRepository counselorRepository,
-            AssignCounselorService assignmentService) {
+            AssignedCounselorService assignmentService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
@@ -87,7 +81,7 @@ public class AuthenticationService {
 
         student = studentRepository.save(request);
 
-        assignmentService.assignCounselorIfVerified(student); 
+        assignmentService.assignCounselorIfVerified(student);
 
         return student;
     }
@@ -163,6 +157,5 @@ public class AuthenticationService {
         userRepository.save(user);
         return true;
     }
-
 
 }

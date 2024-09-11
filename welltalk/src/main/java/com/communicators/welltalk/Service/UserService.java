@@ -18,7 +18,7 @@ public class UserService implements UserDetailsService {
     UserRepository userRepository;
 
     @Autowired
-    AssignCounselorService assignmentService; 
+    AssignedCounselorService assignmentService; 
 
     public List<UserEntity> getAllUsers() {
         return userRepository.findByIsDeletedFalse();

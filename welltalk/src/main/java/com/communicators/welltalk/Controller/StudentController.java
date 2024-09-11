@@ -77,15 +77,15 @@ public class StudentController {
         }
     }
 
-    @PutMapping("/assignCounselor/{studentId}/{teacherId}")
-    public ResponseEntity<Void> assignCounselor(@PathVariable int studentId, @PathVariable int teacherId) {
-        StudentEntity student = studentService.getStudentById(studentId);
-        TeacherEntity teacher = teacherService.getTeacherById(teacherId);
-        if (student != null && teacher != null) {
-            studentService.assignCounselorToStudent(student, teacher);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
+    // @PutMapping("/assignCounselor/{studentId}/{teacherId}")
+    // public ResponseEntity<Void> assignCounselor(@PathVariable int studentId, @PathVariable int teacherId) {
+    //     StudentEntity student = studentService.getStudentById(studentId);
+    //     TeacherEntity teacher = teacherService.getTeacherById(teacherId);
+    //     if (student != null && teacher != null) {
+    //         studentService.assignCounselorToStudent(student, teacher);
+    //         return new ResponseEntity<>(HttpStatus.OK);
+    //     } else {
+    //         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    //     }
+    // }
 }
