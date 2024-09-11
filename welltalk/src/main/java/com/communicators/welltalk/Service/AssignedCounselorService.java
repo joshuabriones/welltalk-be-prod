@@ -1,6 +1,7 @@
 package com.communicators.welltalk.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,12 +13,20 @@ import com.communicators.welltalk.Entity.TeacherEntity;
 import com.communicators.welltalk.Entity.UserEntity;
 import com.communicators.welltalk.Repository.AssignedCounselorRepository;
 import com.communicators.welltalk.Repository.CounselorRepository;
+import com.communicators.welltalk.Repository.StudentRepository;
+import com.communicators.welltalk.Repository.TeacherRepository;
 
 @Service
 public class AssignedCounselorService {
 
     @Autowired
     CounselorRepository counselorRepository;
+
+    @Autowired
+    StudentRepository studentRepository;
+
+    @Autowired
+    TeacherRepository teacherRepository;
 
     @Autowired
     AssignedCounselorRepository assignedCounselorRepository;
@@ -66,5 +75,13 @@ public class AssignedCounselorService {
 
     public List<AssignedCounselorEntity> getByCounselorId(int counselorId) {
         return assignedCounselorRepository.findByCounselorId(counselorId);
+    }
+
+    public Optional<StudentEntity> getStudentById(int studentId) {
+        return studentRepository.findById(studentId);
+    }
+
+    public Optional<TeacherEntity> getTeacherById(int teacherId) {
+        return teacherRepository.findById(teacherId);
     }
 }
