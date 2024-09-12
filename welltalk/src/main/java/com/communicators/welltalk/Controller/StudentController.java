@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.communicators.welltalk.Entity.StudentEntity;
-import com.communicators.welltalk.Entity.TeacherEntity;
 import com.communicators.welltalk.Service.AuthenticationService;
 import com.communicators.welltalk.Service.StudentService;
 import com.communicators.welltalk.Service.TeacherService;
@@ -29,9 +28,8 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
 
-    @Autowired 
+    @Autowired
     private TeacherService teacherService;
-
 
     @Autowired
     private AuthenticationService authenticationService;
@@ -78,14 +76,15 @@ public class StudentController {
     }
 
     // @PutMapping("/assignCounselor/{studentId}/{teacherId}")
-    // public ResponseEntity<Void> assignCounselor(@PathVariable int studentId, @PathVariable int teacherId) {
-    //     StudentEntity student = studentService.getStudentById(studentId);
-    //     TeacherEntity teacher = teacherService.getTeacherById(teacherId);
-    //     if (student != null && teacher != null) {
-    //         studentService.assignCounselorToStudent(student, teacher);
-    //         return new ResponseEntity<>(HttpStatus.OK);
-    //     } else {
-    //         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    //     }
+    // public ResponseEntity<Void> assignCounselor(@PathVariable int studentId,
+    // @PathVariable int teacherId) {
+    // StudentEntity student = studentService.getStudentById(studentId);
+    // TeacherEntity teacher = teacherService.getTeacherById(teacherId);
+    // if (student != null && teacher != null) {
+    // studentService.assignCounselorToStudent(student, teacher);
+    // return new ResponseEntity<>(HttpStatus.OK);
+    // } else {
+    // return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    // }
     // }
 }

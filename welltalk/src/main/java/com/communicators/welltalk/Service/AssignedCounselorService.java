@@ -75,11 +75,23 @@ public class AssignedCounselorService {
         return assignedCounselorRepository.findByCounselorId(counselorId);
     }
 
+    public List<AssignedCounselorEntity> getByStudentId(int studentId) {
+        return assignedCounselorRepository.findByStudentId(studentId);
+    }
+
+    public List<AssignedCounselorEntity> getByTeacherId(int teacherId) {
+        return assignedCounselorRepository.findByTeacherId(teacherId);
+    }
+
     public Optional<StudentEntity> getStudentById(int studentId) {
         return studentRepository.findById(studentId);
     }
 
     public Optional<TeacherEntity> getTeacherById(int teacherId) {
         return teacherRepository.findById(teacherId);
+    }
+
+    public Optional<CounselorEntity> getCounselorById(int counselorId) {
+        return counselorRepository.findById(counselorId);
     }
 }
