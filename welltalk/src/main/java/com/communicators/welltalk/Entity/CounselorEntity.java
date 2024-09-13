@@ -8,7 +8,6 @@ import javax.persistence.Table;
 @Table(name = "tblcounselor")
 public class CounselorEntity extends UserEntity {
 
-
     @Column(name = "assignedYear")
     private String assignedYear;
 

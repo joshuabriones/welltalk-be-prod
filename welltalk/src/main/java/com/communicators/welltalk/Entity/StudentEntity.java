@@ -1,10 +1,10 @@
 package com.communicators.welltalk.Entity;
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "tblstudent")
@@ -39,9 +39,12 @@ public class StudentEntity extends UserEntity {
     }
 
     public StudentEntity(String institutionalEmail, String idNumber, String firstName, String lastName, String gender,
-            String password, String image, String role, String college, String program,  int year, LocalDate birthDate,
-            String contactNumber, String specificAddress, /* String barangay, String city, String province,
-            String zipCode,*/ String parentGuardianName, String parentGuardianContactNumber) {
+            String password, String image, String role, String college, String program, int year, LocalDate birthDate,
+            String contactNumber, String specificAddress, /*
+                                                           * String barangay, String city, String province,
+                                                           * String zipCode,
+                                                           */ String parentGuardianName,
+            String parentGuardianContactNumber) {
         super(institutionalEmail, idNumber, firstName, lastName, gender, password, image, role, college, program);
         // this.college = college;
         // this.program = program;
@@ -57,10 +60,14 @@ public class StudentEntity extends UserEntity {
         this.parentGuardianName = parentGuardianName;
     }
 
-    public StudentEntity(/*int teacherId,*/ String institutionalEmail, String idNumber, String firstName, String lastName,
+    public StudentEntity(/* int teacherId, */ String institutionalEmail, String idNumber, String firstName,
+            String lastName,
             String gender, String password, String role, String college, String program, int year, LocalDate birthDate,
-            String contactNumber, String specificAddress, /* String barangay, String city, String province,
-            String zipCode,*/ String parentGuardianName, String parentGuardianContactNumber) {
+            String contactNumber, String specificAddress, /*
+                                                           * String barangay, String city, String province,
+                                                           * String zipCode,
+                                                           */ String parentGuardianName,
+            String parentGuardianContactNumber) {
         super(institutionalEmail, idNumber, firstName, lastName, gender, password, role, college, program);
         // this.college = college;
         // this.program = program;
@@ -77,11 +84,11 @@ public class StudentEntity extends UserEntity {
     }
 
     // public String getCollege() {
-    //     return college;
+    // return college;
     // }
 
     // public void setCollege(String college) {
-    //     this.college = college;
+    // this.college = college;
     // }
 
     public String getParentGuardianName() {
@@ -101,11 +108,11 @@ public class StudentEntity extends UserEntity {
     }
 
     // public String getProgram() {
-    //     return program;
+    // return program;
     // }
 
     // public void setProgram(String program) {
-    //     this.program = program;
+    // this.program = program;
     // }
 
     public int getYear() {
@@ -132,44 +139,43 @@ public class StudentEntity extends UserEntity {
         this.contactNumber = contactNumber;
     }
 
-    public String getSpecificAddress() {
-        return specificAddress;
+    public String getPermanentAddress() {
+        return permanentAddress;
     }
 
-    public void setSpecificAddress(String specificAddress) {
-        this.specificAddress = specificAddress;
+    public void setPermanentAddress(String permanentAddress) {
+        this.permanentAddress = permanentAddress;
     }
 
     // public String getBarangay() {
-    //     return barangay;
+    // return barangay;
     // }
 
     // public void setBarangay(String barangay) {
-    //     this.barangay = barangay;
+    // this.barangay = barangay;
     // }
 
     // public String getCity() {
-    //     return city;
+    // return city;
     // }
 
     // public void setCity(String city) {
-    //     this.city = city;
+    // this.city = city;
     // }
 
     // public String getProvince() {
-    //     return province;
+    // return province;
     // }
 
     // public void setProvince(String province) {
-    //     this.province = province;
+    // this.province = province;
     // }
 
     // public String getZipCode() {
-    //     return zipCode;
+    // return zipCode;
     // }
 
-    // public void setZipCode(String zipCode) {
-    //     this.zipCode = zipCode;
+    // public void setGuardianEmailAddress(String guardianEmailAddress) {
+    // this.guardianEmailAddress = guardianEmailAddress;
     // }
-
 }

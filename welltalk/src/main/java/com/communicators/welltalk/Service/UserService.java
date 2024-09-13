@@ -24,6 +24,10 @@ public class UserService implements UserDetailsService {
         return userRepository.findByIsDeletedFalse();
     }
 
+    public List<UserEntity> getAllUnverifiedUsers() {
+        return userRepository.findByIsDeletedFalseAndIsVerifiedFalse();
+    }
+
     public List<UserEntity> getAllVerifiedUsers() {
         return userRepository.findByIsDeletedFalseAndIsVerifiedTrue();
     }
