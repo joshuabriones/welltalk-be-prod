@@ -12,6 +12,8 @@ import java.util.Optional;
 public interface TeacherRepository extends JpaRepository<TeacherEntity, Integer> {
     List<TeacherEntity> findByIsDeletedFalse();
 
+    List<TeacherEntity> findByIsDeletedFalseAndIsVerifiedTrue();
+
     Optional<TeacherEntity> findByIdAndIsDeletedFalse(int id);
 
     Optional<TeacherEntity> findByInstitutionalEmailAndIsDeletedFalse(String institutionalEmail);

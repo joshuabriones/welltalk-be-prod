@@ -37,6 +37,7 @@ public class CounselorController {
     @PostMapping("/createCounselor")
     public ResponseEntity<CounselorEntity> insertCounselor(@RequestBody CounselorEntity counselor) {
         CounselorEntity newCounselor = authenticationService.registerCounselor(counselor);
+        assignedCounselorService.assignCounselorIfVerified(newCounselor);
         return new ResponseEntity<>(newCounselor, HttpStatus.CREATED);
     }
 

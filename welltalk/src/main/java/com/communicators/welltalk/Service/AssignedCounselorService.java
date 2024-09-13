@@ -30,43 +30,86 @@ public class AssignedCounselorService {
 
     @Autowired
     AssignedCounselorRepository assignedCounselorRepository;
-
     public void assignCounselorIfVerified(UserEntity user) {
         if (user.getIsVerified()) {
             if (user instanceof StudentEntity) {
-                StudentEntity student = (StudentEntity) user;
-                List<CounselorEntity> counselors = counselorRepository.findByIsDeletedFalse();
-                for (CounselorEntity counselor : counselors) {
-                    if (counselor.getProgram().contains(student.getProgram()) &&
-                            counselor.getCollege().equals(student.getCollege()) &&
-                            counselor.getAssignedYear().contains(String.valueOf(student.getYear()))) {
-
-                        AssignedCounselorEntity assignedCounselor = new AssignedCounselorEntity();
-                        assignedCounselor.setStudentId(student.getId());
-                        assignedCounselor.setCounselorId(counselor.getId());
-                        assignedCounselor.setProgram(student.getProgram());
-                        assignedCounselor.setYear(student.getYear());
-                        assignedCounselor.setCollege(student.getCollege());
-
-                        assignedCounselorRepository.save(assignedCounselor);
-                    }
-                }
+                assignCounselorToStudent((StudentEntity) user);
             } else if (user instanceof TeacherEntity) {
-                TeacherEntity teacher = (TeacherEntity) user;
-                List<CounselorEntity> counselors = counselorRepository.findByIsDeletedFalse();
-                for (CounselorEntity counselor : counselors) {
-                    if (counselor.getProgram().contains(teacher.getProgram()) &&
-                            counselor.getCollege().equals(teacher.getCollege())) {
+                assignCounselorToTeacher((TeacherEntity) user);
+            } else if (user instanceof CounselorEntity) {
+                assignCounselorToExistingUsers((CounselorEntity) user);
+            }
+        }
+    }
 
-                        AssignedCounselorEntity assignedCounselor = new AssignedCounselorEntity();
-                        assignedCounselor.setTeacherId(teacher.getId());
-                        assignedCounselor.setCounselorId(counselor.getId());
-                        assignedCounselor.setProgram(teacher.getProgram());
-                        assignedCounselor.setCollege(teacher.getCollege());
+    private void assignCounselorToStudent(StudentEntity student) {
+        List<CounselorEntity> counselors = counselorRepository.findByIsDeletedFalseAndIsVerifiedTrue();
+        for (CounselorEntity counselor : counselors) {
+            if (counselor.getProgram().contains(student.getProgram()) &&
+                    counselor.getCollege().equals(student.getCollege()) &&
+                    counselor.getAssignedYear().contains(String.valueOf(student.getYear()))) {
 
-                        assignedCounselorRepository.save(assignedCounselor);
-                    }
-                }
+                AssignedCounselorEntity assignedCounselor = new AssignedCounselorEntity();
+                assignedCounselor.setStudentId(student.getId());
+                assignedCounselor.setCounselorId(counselor.getId());
+                assignedCounselor.setProgram(student.getProgram());
+                assignedCounselor.setYear(student.getYear());
+                assignedCounselor.setCollege(student.getCollege());
+
+                assignedCounselorRepository.save(assignedCounselor);
+            }
+        }
+    }
+
+    private void assignCounselorToTeacher(TeacherEntity teacher) {
+        List<CounselorEntity> counselors = counselorRepository.findByIsDeletedFalseAndIsVerifiedTrue();
+        for (CounselorEntity counselor : counselors) {
+            if (counselor.getProgram().contains(teacher.getProgram()) &&
+                    counselor.getCollege().equals(teacher.getCollege())) {
+
+                AssignedCounselorEntity assignedCounselor = new AssignedCounselorEntity();
+                assignedCounselor.setTeacherId(teacher.getId());
+                assignedCounselor.setCounselorId(counselor.getId());
+                assignedCounselor.setProgram(teacher.getProgram());
+                assignedCounselor.setCollege(teacher.getCollege());
+
+                assignedCounselorRepository.save(assignedCounselor);
+            }
+        }
+    }
+
+    private void assignCounselorToExistingUsers(CounselorEntity counselor) {
+        // Assign to existing verified students
+        List<StudentEntity> students = studentRepository.findByIsDeletedFalseAndIsVerifiedTrue();
+        for (StudentEntity student : students) {
+            if (counselor.getProgram().contains(student.getProgram()) &&
+                    counselor.getCollege().equals(student.getCollege()) &&
+                    counselor.getAssignedYear().contains(String.valueOf(student.getYear()))) {
+
+                AssignedCounselorEntity assignedCounselor = new AssignedCounselorEntity();
+                assignedCounselor.setStudentId(student.getId());
+                assignedCounselor.setCounselorId(counselor.getId());
+                assignedCounselor.setProgram(student.getProgram());
+                assignedCounselor.setYear(student.getYear());
+                assignedCounselor.setCollege(student.getCollege());
+
+                assignedCounselorRepository.save(assignedCounselor);
+            }
+        }
+
+        // Assign to existing verified teachers
+        List<TeacherEntity> teachers = teacherRepository.findByIsDeletedFalseAndIsVerifiedTrue();
+        for (TeacherEntity teacher : teachers) {
+            if (counselor.getProgram().contains(teacher.getProgram()) &&
+                    counselor.getCollege().equals(teacher.getCollege())) {
+
+                AssignedCounselorEntity assignedCounselor = new AssignedCounselorEntity();
+                assignedCounselor.setTeacherId(teacher.getId());
+                assignedCounselor.setCounselorId(counselor.getId());
+                assignedCounselor.setProgram(teacher.getProgram());
+                assignedCounselor.setCollege(teacher.getCollege());
+
+                assignedCounselorRepository.save(assignedCounselor);
             }
         }
     }
