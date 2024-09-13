@@ -26,7 +26,7 @@ public class StudentEntity extends UserEntity {
     @Column(name = "contactNumber")
     private String contactNumber;
 
-    private String specificAddress;
+    private String permanentAddress;
     private String parentGuardianName;
     private String parentGuardianContactNumber;
     // private String barangay;
@@ -40,7 +40,7 @@ public class StudentEntity extends UserEntity {
 
     public StudentEntity(String institutionalEmail, String idNumber, String firstName, String lastName, String gender,
             String password, String image, String role, String college, String program, int year, LocalDate birthDate,
-            String contactNumber, String specificAddress, /*
+            String contactNumber, String permanentAddress, /*
                                                            * String barangay, String city, String province,
                                                            * String zipCode,
                                                            */ String parentGuardianName,
@@ -51,7 +51,7 @@ public class StudentEntity extends UserEntity {
         this.year = year;
         this.birthDate = birthDate;
         this.contactNumber = contactNumber;
-        this.specificAddress = specificAddress;
+        this.permanentAddress = permanentAddress;
         // this.barangay = barangay;
         // this.city = city;
         // this.province = province;
@@ -63,7 +63,7 @@ public class StudentEntity extends UserEntity {
     public StudentEntity(/* int teacherId, */ String institutionalEmail, String idNumber, String firstName,
             String lastName,
             String gender, String password, String role, String college, String program, int year, LocalDate birthDate,
-            String contactNumber, String specificAddress, /*
+            String contactNumber, String permanentAddress, /*
                                                            * String barangay, String city, String province,
                                                            * String zipCode,
                                                            */ String parentGuardianName,
@@ -74,7 +74,7 @@ public class StudentEntity extends UserEntity {
         this.year = year;
         this.birthDate = birthDate;
         this.contactNumber = contactNumber;
-        this.specificAddress = specificAddress;
+        this.permanentAddress = permanentAddress;
         // this.barangay = barangay;
         // this.city = city;
         // this.province = province;

@@ -49,7 +49,7 @@ public class StudentService {
             studentToUpdate.setYear(student.getYear());
             studentToUpdate.setBirthDate(student.getBirthDate());
             studentToUpdate.setContactNumber(student.getContactNumber());
-            studentToUpdate.setSpecificAddress(student.getSpecificAddress());
+            studentToUpdate.setPermanentAddress(student.getPermanentAddress());
             // studentToUpdate.setBarangay(student.getBarangay());
             // studentToUpdate.setCity(student.getCity());
             // studentToUpdate.setProvince(student.getProvince());
