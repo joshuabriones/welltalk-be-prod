@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.communicators.welltalk.Entity.StudentEntity;
-import com.communicators.welltalk.Entity.TeacherEntity;
 import com.communicators.welltalk.Repository.StudentRepository;
 
 @Service
@@ -17,6 +16,9 @@ public class StudentService {
 
     @Autowired
     CounselorService counselorService;
+
+    @Autowired
+    AssignedCounselorService assignedCounselorService;
 
     public List<StudentEntity> getAllStudents() {
         return studentRepository.findByIsDeletedFalse();
@@ -52,11 +54,16 @@ public class StudentService {
             // studentToUpdate.setCity(student.getCity());
             // studentToUpdate.setProvince(student.getProvince());
             // studentToUpdate.setZipCode(student.getZipCode());
+            // Save updated student
+            studentToUpdate = studentRepository.save(studentToUpdate);
+
+            // Update assignments
+            assignedCounselorService.assignCounselorIfVerified(studentToUpdate);
 
         } catch (Exception e) {
             throw new IllegalArgumentException("Student " + id + " does not exist.");
         } finally {
-            return studentRepository.save(studentToUpdate);
+            return studentToUpdate;
         }
     }
 
@@ -80,9 +87,10 @@ public class StudentService {
         return studentRepository.findByIdNumberAndIsDeletedFalse(studentId);
     }
 
-    public void assignCounselorToStudent(StudentEntity student, TeacherEntity teacher) {
-        if (student.getIsVerified()) {
-            counselorService.assignCounselor(student, teacher);
-        }
-    }
+    // public void assignCounselorToStudent(StudentEntity student, TeacherEntity
+    // teacher) {
+    // if (student.getIsVerified()) {
+    // counselorService.assignCounselor(student, teacher);
+    // }
+    // }
 }

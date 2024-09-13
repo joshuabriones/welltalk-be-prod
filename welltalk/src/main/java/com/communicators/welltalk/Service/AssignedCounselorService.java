@@ -71,6 +71,47 @@ public class AssignedCounselorService {
         }
     }
 
+    public void updateAssignmentsForCounselor(CounselorEntity counselor) {
+        // Remove existing assignments
+        List<AssignedCounselorEntity> existingAssignments = assignedCounselorRepository
+                .findByCounselorId(counselor.getId());
+        assignedCounselorRepository.deleteAll(existingAssignments);
+
+        // Reassign students
+        List<StudentEntity> students = studentRepository.findByIsDeletedFalse();
+        for (StudentEntity student : students) {
+            if (counselor.getProgram().contains(student.getProgram()) &&
+                    counselor.getCollege().equals(student.getCollege()) &&
+                    counselor.getAssignedYear().contains(String.valueOf(student.getYear()))) {
+
+                AssignedCounselorEntity assignedCounselor = new AssignedCounselorEntity();
+                assignedCounselor.setStudentId(student.getId());
+                assignedCounselor.setCounselorId(counselor.getId());
+                assignedCounselor.setProgram(student.getProgram());
+                assignedCounselor.setYear(student.getYear());
+                assignedCounselor.setCollege(student.getCollege());
+
+                assignedCounselorRepository.save(assignedCounselor);
+            }
+        }
+
+        // Reassign teachers
+        List<TeacherEntity> teachers = teacherRepository.findByIsDeletedFalse();
+        for (TeacherEntity teacher : teachers) {
+            if (counselor.getProgram().contains(teacher.getProgram()) &&
+                    counselor.getCollege().equals(teacher.getCollege())) {
+
+                AssignedCounselorEntity assignedCounselor = new AssignedCounselorEntity();
+                assignedCounselor.setTeacherId(teacher.getId());
+                assignedCounselor.setCounselorId(counselor.getId());
+                assignedCounselor.setProgram(teacher.getProgram());
+                assignedCounselor.setCollege(teacher.getCollege());
+
+                assignedCounselorRepository.save(assignedCounselor);
+            }
+        }
+    }
+
     public List<AssignedCounselorEntity> getByCounselorId(int counselorId) {
         return assignedCounselorRepository.findByCounselorId(counselorId);
     }
