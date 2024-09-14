@@ -30,6 +30,7 @@ public class AssignedCounselorService {
 
     @Autowired
     AssignedCounselorRepository assignedCounselorRepository;
+
     public void assignCounselorIfVerified(UserEntity user) {
         if (user.getIsVerified()) {
             if (user instanceof StudentEntity) {
@@ -43,6 +44,11 @@ public class AssignedCounselorService {
     }
 
     private void assignCounselorToStudent(StudentEntity student) {
+        // Remove existing assignments for the student
+        List<AssignedCounselorEntity> existingAssignments = assignedCounselorRepository
+                .findByStudentId(student.getId());
+        assignedCounselorRepository.deleteAll(existingAssignments);
+
         List<CounselorEntity> counselors = counselorRepository.findByIsDeletedFalseAndIsVerifiedTrue();
         for (CounselorEntity counselor : counselors) {
             if (counselor.getProgram().contains(student.getProgram()) &&
@@ -62,6 +68,10 @@ public class AssignedCounselorService {
     }
 
     private void assignCounselorToTeacher(TeacherEntity teacher) {
+        List<AssignedCounselorEntity> existingAssignments = assignedCounselorRepository
+                .findByTeacherId(teacher.getId());
+        assignedCounselorRepository.deleteAll(existingAssignments);
+
         List<CounselorEntity> counselors = counselorRepository.findByIsDeletedFalseAndIsVerifiedTrue();
         for (CounselorEntity counselor : counselors) {
             if (counselor.getProgram().contains(teacher.getProgram()) &&
@@ -79,6 +89,10 @@ public class AssignedCounselorService {
     }
 
     private void assignCounselorToExistingUsers(CounselorEntity counselor) {
+        List<AssignedCounselorEntity> existingAssignments = assignedCounselorRepository
+                .findByCounselorId(counselor.getId());
+        assignedCounselorRepository.deleteAll(existingAssignments);
+        
         // Assign to existing verified students
         List<StudentEntity> students = studentRepository.findByIsDeletedFalseAndIsVerifiedTrue();
         for (StudentEntity student : students) {
