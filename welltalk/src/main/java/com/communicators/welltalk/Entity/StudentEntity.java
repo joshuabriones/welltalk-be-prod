@@ -1,21 +1,21 @@
 package com.communicators.welltalk.Entity;
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "tblstudent")
 // @PrimaryKeyJoinColumn(name = "id")
 public class StudentEntity extends UserEntity {
 
-    @Column(name = "college")
-    private String college;
+    // @Column(name = "college")
+    // private String college;
 
-    @Column(name = "program")
-    private String program;
+    // @Column(name = "program")
+    // private String program;
 
     @Column(name = "year")
     private int year;
@@ -26,18 +26,13 @@ public class StudentEntity extends UserEntity {
     @Column(name = "contactNumber")
     private String contactNumber;
 
-    @Column(name = "permanentAddress")
     private String permanentAddress;
-
-    @Column(name = "guardianName", nullable = true)
-    private String guardianName;
-
-    @Column(name = "guardianContactNumber", nullable = true)
-    private String guardianContactNumber;
-
-    @Column(name = "guardianEmailAddress", nullable = true)
-    private String guardianEmailAddress;
-
+    private String parentGuardianName;
+    private String parentGuardianContactNumber;
+    // private String barangay;
+    // private String city;
+    // private String province;
+    // private String zipCode;
 
     public StudentEntity() {
 
@@ -45,48 +40,80 @@ public class StudentEntity extends UserEntity {
 
     public StudentEntity(String institutionalEmail, String idNumber, String firstName, String lastName, String gender,
             String password, String image, String role, String college, String program, int year, LocalDate birthDate,
-            String contactNumber, String permanentAddress, String guardianName, String guardianContactNumber, String guardianEmailAddress) {
-        super(institutionalEmail, idNumber, firstName, lastName, gender, password, image, role);
-        this.college = college;
-        this.program = program;
+            String contactNumber, String permanentAddress, /*
+                                                           * String barangay, String city, String province,
+                                                           * String zipCode,
+                                                           */ String parentGuardianName,
+            String parentGuardianContactNumber) {
+        super(institutionalEmail, idNumber, firstName, lastName, gender, password, image, role, college, program);
+        // this.college = college;
+        // this.program = program;
         this.year = year;
         this.birthDate = birthDate;
         this.contactNumber = contactNumber;
         this.permanentAddress = permanentAddress;
-        
-        // Sets to null first
-        this.guardianName = guardianName;
-        this.guardianContactNumber = guardianContactNumber;
-        this.guardianEmailAddress = guardianEmailAddress;
+        // this.barangay = barangay;
+        // this.city = city;
+        // this.province = province;
+        // this.zipCode = zipCode;
+        this.parentGuardianContactNumber = parentGuardianContactNumber;
+        this.parentGuardianName = parentGuardianName;
     }
 
-    public StudentEntity(int teacherId, String institutionalEmail, String idNumber, String firstName, String lastName,
+    public StudentEntity(/* int teacherId, */ String institutionalEmail, String idNumber, String firstName,
+            String lastName,
             String gender, String password, String role, String college, String program, int year, LocalDate birthDate,
-            String contactNumber, String permanentAddress) {
-        super(institutionalEmail, idNumber, firstName, lastName, gender, password, role);
-        this.college = college;
-        this.program = program;
+            String contactNumber, String permanentAddress, /*
+                                                           * String barangay, String city, String province,
+                                                           * String zipCode,
+                                                           */ String parentGuardianName,
+            String parentGuardianContactNumber) {
+        super(institutionalEmail, idNumber, firstName, lastName, gender, password, role, college, program);
+        // this.college = college;
+        // this.program = program;
         this.year = year;
         this.birthDate = birthDate;
         this.contactNumber = contactNumber;
         this.permanentAddress = permanentAddress;
+        // this.barangay = barangay;
+        // this.city = city;
+        // this.province = province;
+        // this.zipCode = zipCode;
+        this.parentGuardianContactNumber = parentGuardianContactNumber;
+        this.parentGuardianName = parentGuardianName;
     }
 
-    public String getCollege() {
-        return college;
+    // public String getCollege() {
+    // return college;
+    // }
+
+    // public void setCollege(String college) {
+    // this.college = college;
+    // }
+
+    public String getParentGuardianName() {
+        return parentGuardianName;
     }
 
-    public void setCollege(String college) {
-        this.college = college;
+    public void setParentGuardianName(String parentGuardianName) {
+        this.parentGuardianName = parentGuardianName;
     }
 
-    public String getProgram() {
-        return program;
+    public String getParentGuardianContactNumber() {
+        return parentGuardianContactNumber;
     }
 
-    public void setProgram(String program) {
-        this.program = program;
+    public void setParentGuardianContactNumber(String parentGuardianContactNumber) {
+        this.parentGuardianContactNumber = parentGuardianContactNumber;
     }
+
+    // public String getProgram() {
+    // return program;
+    // }
+
+    // public void setProgram(String program) {
+    // this.program = program;
+    // }
 
     public int getYear() {
         return year;
@@ -119,28 +146,36 @@ public class StudentEntity extends UserEntity {
     public void setPermanentAddress(String permanentAddress) {
         this.permanentAddress = permanentAddress;
     }
- 
-    public String getGuardianName() {
-        return guardianName;
-    }
 
-    public void setGuardianName(String guardianName) {
-        this.guardianName = guardianName;
-    }
+    // public String getBarangay() {
+    // return barangay;
+    // }
 
-    public String getGuardianContactNumber() {
-        return guardianContactNumber;
-    }
+    // public void setBarangay(String barangay) {
+    // this.barangay = barangay;
+    // }
 
-    public void setGuardianContactNumber(String guardianContactNumber) {
-        this.guardianContactNumber = guardianContactNumber;
-    }
+    // public String getCity() {
+    // return city;
+    // }
 
-    public String getGuardianEmailAddress() {
-        return guardianEmailAddress;
-    }
+    // public void setCity(String city) {
+    // this.city = city;
+    // }
 
-    public void setGuardianEmailAddress(String guardianEmailAddress) {
-        this.guardianEmailAddress = guardianEmailAddress;
-    }
+    // public String getProvince() {
+    // return province;
+    // }
+
+    // public void setProvince(String province) {
+    // this.province = province;
+    // }
+
+    // public String getZipCode() {
+    // return zipCode;
+    // }
+
+    // public void setGuardianEmailAddress(String guardianEmailAddress) {
+    // this.guardianEmailAddress = guardianEmailAddress;
+    // }
 }

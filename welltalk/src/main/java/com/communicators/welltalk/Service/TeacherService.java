@@ -1,19 +1,22 @@
 package com.communicators.welltalk.Service;
 
+import java.util.List;
+import java.util.NoSuchElementException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.communicators.welltalk.Entity.TeacherEntity;
 import com.communicators.welltalk.Repository.TeacherRepository;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-
 @Service
 public class TeacherService {
 
     @Autowired
     TeacherRepository teacherRepository;
+
+    @Autowired
+    AssignedCounselorService assignedCounselorService;
 
     public List<TeacherEntity> getAllTeachers() {
         return teacherRepository.findByIsDeletedFalse();
@@ -36,10 +39,16 @@ public class TeacherService {
             // teacherToUpdate.setPassword(teacher.getPassword());
             teacherToUpdate.setImage(teacher.getImage());
             teacherToUpdate.setCollege(teacher.getCollege());
+            // Save updated teacher
+            teacherToUpdate = teacherRepository.save(teacherToUpdate);
+
+            // Update assignments
+            assignedCounselorService.assignCounselorIfVerified(teacherToUpdate);
+
         } catch (NoSuchElementException e) {
             throw new NoSuchElementException("Teacher " + id + " does not exist.");
         } finally {
-            return teacherRepository.save(teacherToUpdate);
+            return teacherToUpdate;
         }
     }
 

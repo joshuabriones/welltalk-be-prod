@@ -14,6 +14,12 @@ public class StudentService {
     @Autowired
     StudentRepository studentRepository;
 
+    @Autowired
+    CounselorService counselorService;
+
+    @Autowired
+    AssignedCounselorService assignedCounselorService;
+
     public List<StudentEntity> getAllStudents() {
         return studentRepository.findByIsDeletedFalse();
     }
@@ -44,12 +50,20 @@ public class StudentService {
             studentToUpdate.setBirthDate(student.getBirthDate());
             studentToUpdate.setContactNumber(student.getContactNumber());
             studentToUpdate.setPermanentAddress(student.getPermanentAddress());
-            
+            // studentToUpdate.setBarangay(student.getBarangay());
+            // studentToUpdate.setCity(student.getCity());
+            // studentToUpdate.setProvince(student.getProvince());
+            // studentToUpdate.setZipCode(student.getZipCode());
+            // Save updated student
+            studentToUpdate = studentRepository.save(studentToUpdate);
+
+            // Update assignments
+            assignedCounselorService.assignCounselorIfVerified(studentToUpdate);
 
         } catch (Exception e) {
             throw new IllegalArgumentException("Student " + id + " does not exist.");
         } finally {
-            return studentRepository.save(studentToUpdate);
+            return studentToUpdate;
         }
     }
 
@@ -72,4 +86,11 @@ public class StudentService {
     public StudentEntity getStudentByStudentId(String studentId) {
         return studentRepository.findByIdNumberAndIsDeletedFalse(studentId);
     }
+
+    // public void assignCounselorToStudent(StudentEntity student, TeacherEntity
+    // teacher) {
+    // if (student.getIsVerified()) {
+    // counselorService.assignCounselor(student, teacher);
+    // }
+    // }
 }

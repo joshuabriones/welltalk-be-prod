@@ -1,5 +1,7 @@
 package com.communicators.welltalk.Controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,15 +11,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestBody;
-import com.communicators.welltalk.Service.AuthenticationService;
 
-import com.communicators.welltalk.Service.StudentService;
 import com.communicators.welltalk.Entity.StudentEntity;
-
-import java.util.List;
+import com.communicators.welltalk.Service.AuthenticationService;
+import com.communicators.welltalk.Service.StudentService;
+import com.communicators.welltalk.Service.TeacherService;
 
 @CrossOrigin("http://localhost:3000")
 @RestController
@@ -26,6 +27,9 @@ public class StudentController {
 
     @Autowired
     private StudentService studentService;
+
+    @Autowired
+    private TeacherService teacherService;
 
     @Autowired
     private AuthenticationService authenticationService;
@@ -70,4 +74,17 @@ public class StudentController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    // @PutMapping("/assignCounselor/{studentId}/{teacherId}")
+    // public ResponseEntity<Void> assignCounselor(@PathVariable int studentId,
+    // @PathVariable int teacherId) {
+    // StudentEntity student = studentService.getStudentById(studentId);
+    // TeacherEntity teacher = teacherService.getTeacherById(teacherId);
+    // if (student != null && teacher != null) {
+    // studentService.assignCounselorToStudent(student, teacher);
+    // return new ResponseEntity<>(HttpStatus.OK);
+    // } else {
+    // return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    // }
+    // }
 }

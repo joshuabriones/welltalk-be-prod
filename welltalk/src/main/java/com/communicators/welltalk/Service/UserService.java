@@ -17,8 +17,15 @@ public class UserService implements UserDetailsService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    AssignedCounselorService assignmentService; 
+
     public List<UserEntity> getAllUsers() {
         return userRepository.findByIsDeletedFalse();
+    }
+
+    public List<UserEntity> getAllUnverifiedUsers() {
+        return userRepository.findByIsDeletedFalseAndIsVerifiedFalse();
     }
 
     public List<UserEntity> getAllVerifiedUsers() {
@@ -84,7 +91,8 @@ public class UserService implements UserDetailsService {
         UserEntity user = userRepository.findById(id).get();
         if (user != null) {
             user.setIsVerified(true);
-            userRepository.save(user);
+            userRepository.save(user); 
+            assignmentService.assignCounselorIfVerified(user); 
             return true;
         } else {
             System.out.println("User " + id + " does not exist.");

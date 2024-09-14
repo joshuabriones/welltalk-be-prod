@@ -59,18 +59,26 @@ public class UserEntity implements UserDetails {
     @Enumerated(value = EnumType.STRING)
     Role role;
 
+    @Column(name = "college")
+    private String college;
+
+    @Column(name = "program")
+    private String program;
+    
     @Column(name = "isDeleted")
     private boolean isDeleted;
 
     @Column(name = "isVerified")
     private boolean isVerified;
 
+
+
     public UserEntity() {
 
     }
 
     public UserEntity(String institutionalEmail, String idNumber, String firstName, String lastName, String gender,
-            String password, String image, String role) {
+            String password, String image, String role, String college, String program) {
         this.institutionalEmail = institutionalEmail;
         this.idNumber = idNumber;
         this.firstName = firstName;
@@ -80,10 +88,12 @@ public class UserEntity implements UserDetails {
         this.image = image;
         isDeleted = false;
         isVerified = false;
+        this.college = college;
+        this.program = program;
     }
 
     public UserEntity(String institutionalEmail, String idNumber, String firstName, String lastName, String gender,
-            String password, String role) {
+            String password, String role, String college, String program) {
         this.institutionalEmail = institutionalEmail;
         this.idNumber = idNumber;
         this.firstName = firstName;
@@ -92,6 +102,24 @@ public class UserEntity implements UserDetails {
         this.password = password;
         isDeleted = false;
         isVerified = false;
+        this.college = college;
+        this.program = program;
+    }
+
+    public String getCollege() {
+        return college;
+    }
+
+    public void setCollege(String college) {
+        this.college = college;
+    }
+
+    public String getProgram() {
+        return program;
+    }
+
+    public void setProgram(String program) {
+        this.program = program;
     }
 
     public void setId(int id) {

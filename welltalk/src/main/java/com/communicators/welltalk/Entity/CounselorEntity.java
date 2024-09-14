@@ -7,57 +7,31 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "tblcounselor")
 public class CounselorEntity extends UserEntity {
-    @Column(name = "college")
-    private String college;
 
-    @Column(name = "programs")
-    private String programs;
-
-    @Column(name = "yearLevels")
-    private String yearLevels;
-
+    @Column(name = "assignedYear")
+    private String assignedYear;
 
     public CounselorEntity() {
 
     }
 
     public CounselorEntity(String institutionalEmail, String idNumber, String firstName, String lastName, String gender,
-            String password, String image, String role, String college, String programs, String yearLevels) {
-        super(institutionalEmail, idNumber, firstName, lastName, gender, password, image, role);
-        this.college = college;
-        this.programs = programs;
-        this.yearLevels = yearLevels;
+            String password, String image, String role, String assignedYear, String college, String program) {
+        super(institutionalEmail, idNumber, firstName, lastName, gender, password, image, role, college, program);
+        this.assignedYear = assignedYear;
     }
 
     public CounselorEntity(int teacherId, String institutionalEmail, String idNumber, String firstName, String lastName,
-            String gender, String password, String role, String college, String programs, String yearLevels) {
-        super(institutionalEmail, idNumber, firstName, lastName, gender, password, role);
-        this.college = college;
-        this.programs = programs;
-        this.yearLevels = yearLevels;
+            String gender, String password, String role, String assignedYear, String college, String program) {
+        super(institutionalEmail, idNumber, firstName, lastName, gender, password, role, college, program);
+        this.assignedYear = assignedYear;
     }
 
-    public void setCollege(String college) {
-        this.college = college;
+    public String getAssignedYear() {
+        return assignedYear;
     }
 
-    public String getCollege() {
-        return college;
-    }
-
-    public void setPrograms(String programs) {
-        this.programs = programs;
-    }
-
-    public String getPrograms() {
-        return programs;
-    }
-
-    public void setYearLevels(String yearLevels) {
-        this.yearLevels = yearLevels;
-    }
-
-    public String getYearLevels() {
-        return yearLevels;
+    public void setAssignedYear(String assignedYear) {
+        this.assignedYear = assignedYear;
     }
 }
