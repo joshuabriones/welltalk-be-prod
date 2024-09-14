@@ -23,7 +23,9 @@ public class CounselorService {
     AssignedCounselorService assignedCounselorService;
 
     public CounselorEntity saveCounselor(CounselorEntity counselor) {
-        return counselorRepository.save(counselor);
+        CounselorEntity savedCounselor = counselorRepository.save(counselor);
+        assignedCounselorService.assignCounselorIfVerified(savedCounselor);
+        return savedCounselor;
     }
 
     public List<CounselorEntity> getAllCounselors() {
@@ -78,7 +80,7 @@ public class CounselorService {
 
             counselorToUpdate = counselorRepository.save(counselorToUpdate);
 
-            assignedCounselorService.updateAssignmentsForCounselor(counselorToUpdate);
+            assignedCounselorService.assignCounselorIfVerified(counselorToUpdate);
         } catch (NoSuchElementException e) {
             throw new NoSuchElementException("Counselor " + id + " does not exist.");
         } finally {

@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.communicators.welltalk.Entity.StudentEntity;
 import com.communicators.welltalk.Service.AuthenticationService;
 import com.communicators.welltalk.Service.StudentService;
-import com.communicators.welltalk.Service.TeacherService;
 
 @CrossOrigin("http://localhost:3000")
 @RestController
@@ -28,8 +27,8 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
 
-    @Autowired
-    private TeacherService teacherService;
+    // @Autowired
+    // private TeacherService teacherService;
 
     @Autowired
     private AuthenticationService authenticationService;

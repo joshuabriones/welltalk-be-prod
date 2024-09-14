@@ -12,6 +12,8 @@ import com.communicators.welltalk.Entity.CounselorEntity;
 public interface CounselorRepository extends JpaRepository<CounselorEntity, Integer> {
     List<CounselorEntity> findByIsDeletedFalse();
 
+    List<CounselorEntity> findByIsDeletedFalseAndIsVerifiedTrue();
+    
     Optional<CounselorEntity> findByIdAndIsDeletedFalse(int id);
 
     Optional<CounselorEntity> findByInstitutionalEmailAndIsDeletedFalse(String institutionalEmail);

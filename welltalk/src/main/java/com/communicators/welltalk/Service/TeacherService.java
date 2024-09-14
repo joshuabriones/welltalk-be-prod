@@ -39,6 +39,7 @@ public class TeacherService {
             // teacherToUpdate.setPassword(teacher.getPassword());
             teacherToUpdate.setImage(teacher.getImage());
             teacherToUpdate.setCollege(teacher.getCollege());
+            teacherToUpdate.setProgram(teacher.getProgram());
             // Save updated teacher
             teacherToUpdate = teacherRepository.save(teacherToUpdate);
 

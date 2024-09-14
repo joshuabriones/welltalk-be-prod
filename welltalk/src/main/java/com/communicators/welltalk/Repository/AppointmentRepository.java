@@ -1,6 +1,7 @@
 package com.communicators.welltalk.Repository;
 
 import com.communicators.welltalk.Entity.AppointmentEntity;
+import com.communicators.welltalk.Entity.CounselorEntity;
 import com.communicators.welltalk.Entity.StudentEntity;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,4 +22,6 @@ public interface AppointmentRepository extends JpaRepository<AppointmentEntity, 
     List<AppointmentEntity> findByStudentAndIsDeletedFalse(StudentEntity student);
 
     Boolean existsByAppointmentDateAndAppointmentStartTimeAndIsDeletedFalse(LocalDate date, String startTime);
+
+    List<AppointmentEntity> findByCounselorAndAppointmentDateAndAppointmentStartTimeAndIsDeletedFalse(CounselorEntity counselor, LocalDate date, String startTime);
 }
