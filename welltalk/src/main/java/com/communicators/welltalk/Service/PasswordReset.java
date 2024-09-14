@@ -30,7 +30,7 @@ public class PasswordReset {
         PasswordResetTokenEntity myToken = new PasswordResetTokenEntity();
         myToken.setUser(user);
         myToken.setToken(token);
-        myToken.setExpiryDate(calculateExpiryDate(24 * 60)); // Token expires in 24 hours
+        myToken.setExpiryDate(calculateExpiryDate(30)); // Token expires in 24 hours
         passwordResetTokenRepository.save(myToken);
     }
 

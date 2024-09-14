@@ -43,7 +43,8 @@ public class SecurityConfig {
                                 .antMatchers("/login/**", "/createUser/**", "/user/student/createStudent/**",
                                         "/user/counselor/createCounselor/**", "/user/teacher/createTeacher/**",
                                         "/changePassword/**", "/resetPassword/**",
-                                        "/forgotPassword/**", "/validateChangePasswordToken/**")
+                                        "/forgotPassword/**", "/validateChangePasswordToken/**",
+                                        "/verifyUserAccount/**", "/user/referral/validateReferralToken/**")
                                 .permitAll()
                                 .anyRequest().authenticated())
                 .userDetailsService(userService)

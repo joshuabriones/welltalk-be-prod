@@ -152,6 +152,8 @@ public class UserController {
     public ResponseEntity<Void> verifyUserAccount(@PathVariable int id) {
         boolean isVerified = userService.verifyUserAccount(id);
         if (isVerified) {
+            emailService.sendSimpleMessage(userService.getUserById(id).getInstitutionalEmail(), "Account Verified",
+                    "Your account has been verified. You can now login to your account. http://localhost:3000/login ");
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

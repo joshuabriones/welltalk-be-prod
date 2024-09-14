@@ -48,12 +48,6 @@ public class ReferralService {
 
         ReferralEntity referralSaved = referralRepository.save(referral);
 
-        if (referralSaved != null) {
-            emailService.sendSimpleMessage("kheisaselma0227@gmail.com", "WellTalk Referral",
-                    "You have been referred to WellTalk by " + teacher.getFirstName() + " " + teacher.getLastName()
-                            + ". Please register at http://localhost:3000/register");
-        }
-
         return referralSaved;
 
     }
