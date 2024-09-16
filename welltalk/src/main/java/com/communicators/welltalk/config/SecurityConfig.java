@@ -44,7 +44,8 @@ public class SecurityConfig {
                                         "/user/counselor/createCounselor/**", "/user/teacher/createTeacher/**",
                                         "/changePassword/**", "/resetPassword/**",
                                         "/forgotPassword/**", "/validateChangePasswordToken/**",
-                                        "/verifyUserAccount/**", "/user/referral/validateReferralToken/**")
+                                        "/verifyUserAccount/**", "/user/referral/validateReferralToken/**",
+                                        "/notifications/**", "/ws/**")
                                 .permitAll()
                                 .anyRequest().authenticated())
                 .userDetailsService(userService)

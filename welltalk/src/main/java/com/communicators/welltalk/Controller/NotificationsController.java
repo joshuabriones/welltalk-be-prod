@@ -6,7 +6,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.communicators.welltalk.Entity.NotificationsEntity;
 import com.communicators.welltalk.Service.NotificationsService;
+import com.communicators.welltalk.Service.WebSocketNotificationService;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +21,9 @@ public class NotificationsController {
 
     @Autowired
     private NotificationsService notificationsService;
+
+    @Autowired
+    private WebSocketNotificationService webSocketNotificationService;
 
     @GetMapping("/getAllNotifications")
     public ResponseEntity<?> getAllNotifications() {
@@ -30,7 +37,9 @@ public class NotificationsController {
 
     @PostMapping("/saveNotification")
     public ResponseEntity<?> saveNotification(@RequestParam String message, @RequestParam int userId, String type) {
-        return new ResponseEntity<>(notificationsService.saveNotification(message, userId, type), HttpStatus.OK);
+        NotificationsEntity notification = notificationsService.saveNotification(message, userId, type);
+        webSocketNotificationService.sendNotification(notification.getMessage());
+        return new ResponseEntity<>(notification, HttpStatus.OK);
     }
 
     @PutMapping("/markAsRead")

@@ -19,23 +19,20 @@ public class NotificationsEntity {
     private int notificationId;
     private String message;
     private LocalDateTime date;
-    private LocalDateTime time;
     private boolean isRead;
     private LocalDateTime readDate;
-    private LocalDateTime readTime;
     private String type;
 
     @ManyToOne
     @JoinColumn(name = "userId", referencedColumnName = "id")
     private UserEntity user;
 
-    public NotificationsEntity(int notificationId, String message, LocalDateTime date, LocalDateTime time,
+    public NotificationsEntity(int notificationId, String message, LocalDateTime date,
             boolean isRead,
             UserEntity user) {
         this.notificationId = notificationId;
         this.message = message;
         this.date = date;
-        this.time = time;
         this.isRead = isRead;
         this.user = user;
     }
@@ -44,6 +41,7 @@ public class NotificationsEntity {
         this.message = message;
         this.user = user;
         this.type = type;
+        this.isRead = false;
     }
 
     public NotificationsEntity() {
@@ -69,14 +67,9 @@ public class NotificationsEntity {
         return date;
     }
 
-    public LocalDateTime getTime() {
-        return time;
-    }
-
     @PrePersist
     protected void onCreate() {
         date = LocalDateTime.now();
-        time = LocalDateTime.now();
     }
 
     public boolean isRead() {
@@ -98,15 +91,10 @@ public class NotificationsEntity {
     @PreUpdate
     protected void onUpdate() {
         readDate = LocalDateTime.now();
-        readTime = LocalDateTime.now();
     }
 
     public LocalDateTime getReadDate() {
         return readDate;
-    }
-
-    public LocalDateTime getReadTime() {
-        return readTime;
     }
 
     public String getType() {

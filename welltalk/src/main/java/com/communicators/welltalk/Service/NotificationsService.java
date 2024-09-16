@@ -35,7 +35,7 @@ public class NotificationsService {
     }
 
     public void markAsRead(Long id) {
-        NotificationsEntity notification = notificationsRepository.findById(id)
+        NotificationsEntity notification = notificationsRepository.findByNotificationId(id)
                 .orElseThrow(() -> new RuntimeException("Notification not found"));
         notification.setRead(true);
         notificationsRepository.save(notification);
