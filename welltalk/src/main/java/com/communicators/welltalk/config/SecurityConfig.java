@@ -1,5 +1,7 @@
 package com.communicators.welltalk.config;
 
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,8 +20,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.communicators.welltalk.Service.UserService;
 import com.communicators.welltalk.filter.JwtAuthenticationFilter;
-
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -43,13 +43,21 @@ public class SecurityConfig {
                                 .antMatchers("/login/**", "/createUser/**", "/user/student/createStudent/**",
                                         "/user/counselor/createCounselor/**", "/user/teacher/createTeacher/**",
                                         "/changePassword/**", "/resetPassword/**",
+<<<<<<< Updated upstream
                                         "/forgotPassword/**", "/validateChangePasswordToken/**",
                                         "/verifyUserAccount/**", "/user/referral/validateReferralToken/**")
+=======
+                                        "/forgotPassword/**", "/validateChangePasswordToken/**", "/ws/**")
+>>>>>>> Stashed changes
                                 .permitAll()
                                 .anyRequest().authenticated())
                 .userDetailsService(userService)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .headers(headers -> headers
+                        .frameOptions().disable()
+                        .xssProtection().disable()
+                        .contentTypeOptions().disable())
                 .build();
     }
 
