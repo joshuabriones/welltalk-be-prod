@@ -61,6 +61,7 @@ public class JwtService {
                 .claim("idNumber", user.getIdNumber())
                 .claim("image", user.getImage())
                 .claim("role", user.getRole())
+                .claim("isVerified", user.getIsVerified())
                 .subject(user.getInstitutionalEmail())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))

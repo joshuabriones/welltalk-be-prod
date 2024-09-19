@@ -43,12 +43,9 @@ public class SecurityConfig {
                                 .antMatchers("/login/**", "/createUser/**", "/user/student/createStudent/**",
                                         "/user/counselor/createCounselor/**", "/user/teacher/createTeacher/**",
                                         "/changePassword/**", "/resetPassword/**",
-<<<<<<< Updated upstream
                                         "/forgotPassword/**", "/validateChangePasswordToken/**",
-                                        "/verifyUserAccount/**", "/user/referral/validateReferralToken/**")
-=======
+                                        "/verifyUserAccount/**", "/user/referral/validateReferralToken/**",
                                         "/forgotPassword/**", "/validateChangePasswordToken/**", "/ws/**")
->>>>>>> Stashed changes
                                 .permitAll()
                                 .anyRequest().authenticated())
                 .userDetailsService(userService)
