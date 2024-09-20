@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.communicators.welltalk.Service.AppointmentService;
 import com.communicators.welltalk.Entity.AppointmentEntity;
+import com.communicators.welltalk.Service.AppointmentService;
 
 import java.time.LocalDate;
 
@@ -27,6 +28,9 @@ public class AppointmentController {
 
     @Autowired
     private AppointmentService appointmentService;
+
+    @Autowired
+    private AppointmentService counselorAppointmentService;
 
     @GetMapping("/checkAppointmentIsTaken/{date}/{startTime}")
     public ResponseEntity<Boolean> checkAppointmentIsTaken(
@@ -40,6 +44,15 @@ public class AppointmentController {
     public ResponseEntity<?> getAppointmentsByDate(
             @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         return new ResponseEntity<>(appointmentService.getAppointmentsByDate(date), HttpStatus.OK);
+    }
+
+    @PostMapping("/counselorSaveAppointment/{counselorId}")
+    public ResponseEntity<AppointmentEntity> counselorSaveAppointment(
+            @PathVariable int counselorId,
+            @RequestParam int studentId,
+            @RequestBody AppointmentEntity appointment) {
+        AppointmentEntity newAppointment = appointmentService.counselorSaveAppointment(counselorId, studentId, appointment);
+        return new ResponseEntity<>(newAppointment, HttpStatus.CREATED);
     }
 
     @PostMapping("/createAppointment")

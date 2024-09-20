@@ -15,6 +15,7 @@ import com.communicators.welltalk.Entity.ReferralEntity;
 import com.communicators.welltalk.Entity.Role;
 import com.communicators.welltalk.Entity.StudentEntity;
 import com.communicators.welltalk.Repository.AppointmentRepository;
+import com.communicators.welltalk.Repository.CounselorRepository;
 import com.communicators.welltalk.Repository.ReferralRepository;
 
 @Service
@@ -40,6 +41,9 @@ public class AppointmentService {
 
     @Autowired
     AssignedCounselorService assignedCounselorService;
+
+    @Autowired
+    CounselorRepository counselorRepository;
 
     // public AppointmentEntity saveAppointment(int id, AppointmentEntity appointment) {
     //     if (checkAppointmentIsTaken(appointment.getAppointmentDate(), appointment.getAppointmentStartTime())) {
@@ -91,6 +95,18 @@ public class AppointmentService {
 
     //     return appointmentCreated;
     // }
+
+    public AppointmentEntity counselorSaveAppointment(int counselorId, int studentId, AppointmentEntity appointment) {
+        CounselorEntity counselor = counselorRepository.findByIdAndIsDeletedFalse(counselorId)
+                .orElseThrow(() -> new IllegalArgumentException("Counselor with ID " + counselorId + " does not exist or is deleted."));
+        StudentEntity student = studentService.getStudentById(studentId);
+    
+        appointment.setCounselor(counselor);
+        appointment.setStudent(student);
+        appointment.setAppointmentStatus("Pending");
+    
+        return appointmentRepository.save(appointment);
+    }
 
     public AppointmentEntity saveAppointment(int id, AppointmentEntity appointment) {
         StudentEntity student = studentService.getStudentById(id);
