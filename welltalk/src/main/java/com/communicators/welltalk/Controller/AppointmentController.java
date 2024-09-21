@@ -1,5 +1,7 @@
 package com.communicators.welltalk.Controller;
 
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -15,11 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.communicators.welltalk.Service.AppointmentService;
 import com.communicators.welltalk.Entity.AppointmentEntity;
 import com.communicators.welltalk.Service.AppointmentService;
-
-import java.time.LocalDate;
 
 @CrossOrigin("http://localhost:3000")
 @RestController
@@ -29,8 +28,6 @@ public class AppointmentController {
     @Autowired
     private AppointmentService appointmentService;
 
-    @Autowired
-    private AppointmentService counselorAppointmentService;
 
     @GetMapping("/checkAppointmentIsTaken/{date}/{startTime}")
     public ResponseEntity<Boolean> checkAppointmentIsTaken(
@@ -51,7 +48,8 @@ public class AppointmentController {
             @PathVariable int counselorId,
             @RequestParam int studentId,
             @RequestBody AppointmentEntity appointment) {
-        AppointmentEntity newAppointment = appointmentService.counselorSaveAppointment(counselorId, studentId, appointment);
+        AppointmentEntity newAppointment = appointmentService.counselorSaveAppointment(counselorId, studentId,
+                appointment);
         return new ResponseEntity<>(newAppointment, HttpStatus.CREATED);
     }
 

@@ -1,7 +1,13 @@
 package com.communicators.welltalk.Entity;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "tblchat")
@@ -67,6 +73,7 @@ public class ChatEntity {
 
     public ChatEntity() {
     }
+
     public ChatEntity(int messageId, int senderId, int receiverId, String message, LocalDateTime timestamp) {
         this.messageId = messageId;
         this.senderId = senderId;
@@ -75,5 +82,4 @@ public class ChatEntity {
         this.timestamp = timestamp;
     }
 
-    
 }

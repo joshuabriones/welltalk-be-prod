@@ -6,8 +6,9 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
-import com.communicators.welltalk.Service.ChatService;
+
 import com.communicators.welltalk.Entity.ChatEntity;
+import com.communicators.welltalk.Service.ChatService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class WebSocketHandler extends TextWebSocketHandler {

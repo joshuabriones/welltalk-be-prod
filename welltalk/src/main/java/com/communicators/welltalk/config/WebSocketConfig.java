@@ -6,8 +6,8 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
-import com.communicators.welltalk.Service.ChatService;
 
+import com.communicators.welltalk.Service.ChatService;
 
 @Configuration
 @EnableWebSocket
