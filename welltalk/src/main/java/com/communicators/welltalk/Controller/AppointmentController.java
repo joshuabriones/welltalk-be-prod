@@ -1,6 +1,7 @@
 package com.communicators.welltalk.Controller;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -27,7 +28,6 @@ public class AppointmentController {
 
     @Autowired
     private AppointmentService appointmentService;
-
 
     @GetMapping("/checkAppointmentIsTaken/{date}/{startTime}")
     public ResponseEntity<Boolean> checkAppointmentIsTaken(
@@ -120,6 +120,15 @@ public class AppointmentController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/getAppointmentsByCounselorId/{counselorId}")
+    public ResponseEntity<List<AppointmentEntity>> getAppointmentsByCounselorId(@PathVariable int counselorId) {
+        List<AppointmentEntity> appointments = appointmentService.getAppointmentsByCounselorId(counselorId);
+        if (appointments.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(appointments, HttpStatus.OK);
     }
 
 }

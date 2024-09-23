@@ -1,6 +1,7 @@
 package com.communicators.welltalk.Service;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -353,4 +354,19 @@ public class AppointmentService {
             return false;
         }
     }
+
+
+    public List<AppointmentEntity> getAppointmentsByCounselorId(int counselorId) {
+        CounselorEntity counselor = counselorRepository.findByIdAndIsDeletedFalse(counselorId)
+                .orElseThrow(() -> new IllegalArgumentException("Counselor with ID " + counselorId + " does not exist or is deleted."));
+        List<AppointmentEntity> appointments = appointmentRepository.findByCounselorAndIsDeletedFalse(counselor);
+    
+        // Sort appointments by appointmentDate and appointmentStartTime
+        appointments.sort(Comparator.comparing(AppointmentEntity::getAppointmentDate)
+                .thenComparing(AppointmentEntity::getAppointmentStartTime));
+    
+        return appointments;
+    }
+    
+    
 }
