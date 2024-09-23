@@ -45,6 +45,8 @@ public class SecurityConfig {
                                         "/changePassword/**", "/resetPassword/**",
                                         "/forgotPassword/**", "/validateChangePasswordToken/**",
                                         "/verifyUserAccount/**", "/user/referral/validateReferralToken/**",
+                                        "/notifications/**",
+                                        "/verifyUserAccount/**", "/user/referral/validateReferralToken/**",
                                         "/forgotPassword/**", "/validateChangePasswordToken/**", "/ws/**")
                                 .permitAll()
                                 .anyRequest().authenticated())

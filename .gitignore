@@ -1,0 +1,5 @@
+# Ignore application-secret.properties
+src/main/resources/application-secret.properties
+
+# Ignore any .env file (if you use environment files)
+.env
