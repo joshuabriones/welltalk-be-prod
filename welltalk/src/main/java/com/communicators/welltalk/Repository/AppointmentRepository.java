@@ -25,8 +25,6 @@ public interface AppointmentRepository extends JpaRepository<AppointmentEntity, 
 
     List<AppointmentEntity> findByCounselorAndAppointmentDateAndAppointmentStartTimeAndIsDeletedFalse(
             CounselorEntity counselor, LocalDate date, String startTime);
-    List<AppointmentEntity> findByCounselorAndAppointmentDateAndAppointmentStartTimeAndIsDeletedFalse(CounselorEntity counselor, LocalDate date, String startTime);
-
 
     List<AppointmentEntity> findByCounselorAndIsDeletedFalse(CounselorEntity counselor);
 }
