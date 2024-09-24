@@ -4,7 +4,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -37,7 +37,7 @@ public class EmailService {
     // helper.setSubject(subject);
     // helper.setText(text);
 
-    // FileSystemResource file = new FileSystemResource(pathToAttachment);
+    // ClassPathResource file = new ClassPathResource(pathToAttachment);
     // helper.addAttachment("Invoice", file);
 
     // mailSender.send(message);
@@ -68,12 +68,12 @@ public class EmailService {
         helper.setSubject(subject);
         helper.setText(htmlBody, true);
 
-        // Embedding first image
-        FileSystemResource res1 = new FileSystemResource(pathToImage1);
+        // Embedding first image (from the classpath)
+        ClassPathResource res1 = new ClassPathResource(pathToImage1);
         helper.addInline("imageId1", res1);
 
-        // Embedding second image
-        FileSystemResource res2 = new FileSystemResource(pathToImage2);
+        // Embedding second image (from the classpath)
+        ClassPathResource res2 = new ClassPathResource(pathToImage2);
         helper.addInline("imageId2", res2);
 
         mailSender.send(message);

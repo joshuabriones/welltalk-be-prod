@@ -74,8 +74,8 @@ public class EmailTemplates {
                 "</html>";
 
         // Paths for the images you want to embed
-        String image1Path = "C:/Users/User/Documents/GitHub/Welltalk-backend/welltalk/src/main/resources/static/images/logowords.png";
-        String image2Path = "C:/Users/User/Documents/GitHub/Welltalk-backend/welltalk/src/main/resources/static/images/approve.png";
+        String image1Path = "static/images/logowords.png";
+        String image2Path = "static/images/approve.png";
 
         try {
             // Send the email with the HTML content and images
