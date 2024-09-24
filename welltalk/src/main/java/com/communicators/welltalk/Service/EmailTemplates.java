@@ -57,11 +57,11 @@ public class EmailTemplates {
                 +
                 "                  Simply click the button below to log in and start using WellTalk.\n" +
                 "                </p>\n" +
-                "                <a href=\"https://localhost:3000/\" style=\"background-color: #8a252c; color: #ffffff; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;\">Go to WellTalk</a>\n"
+                "                <a href=\"http://localhost:3000/\" style=\"background-color: #8a252c; color: #ffffff; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;\">Go to WellTalk</a>\n"
                 +
                 "                <p style=\"font-size: 12px; color: #474647; margin-top: 10px;\">\n" +
                 "                  If the button isn't clickable, please use the following link instead:\n" +
-                "                  <a href=\"https://localhost:3000/\" style=\"color: #8a252c;\">https://localhost:3000/</a>\n"
+                "                  <a href=\"http://localhost:3000/\" style=\"color: #8a252c;\">http://localhost:3000/</a>\n"
                 +
                 "                </p>\n" +
                 "              </td>\n" +
