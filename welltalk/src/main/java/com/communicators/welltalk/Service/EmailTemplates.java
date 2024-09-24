@@ -1,20 +1,15 @@
-package com.communicators.welltalk.Controller;
+package com.communicators.welltalk.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-import com.communicators.welltalk.Service.EmailService;
+import org.springframework.stereotype.Service;
 
-@RestController
-public class EmailController {
-
+@Service
+public class EmailTemplates {
     @Autowired
     private EmailService emailService;
 
-    @GetMapping("/sendEmail")
-    private String sendEmail() {
-        String to = "kheisaselma0227@gmail.com";
-        String subject = "Test Email";
+    public String sendVerificationEmail(String to) {
+        String subject = "Account Verification";
         String htmlContent = "<!DOCTYPE html>\n" +
                 "<html>\n" +
                 "  <head>\n" +
@@ -58,7 +53,7 @@ public class EmailController {
                 "                <p style=\"font-size: 12px; color: #474647; line-height: 1.5; margin: 20px;\">\n" +
                 "                  <span style=\"font-weight: bold; color: #8a252c;\">Congratulations!</span> Your WellTalk account has been successfully\n"
                 +
-                "                  verified. You’re all set to begin exploring and enjoying seamless appointment booking with integrated journals and logs.\n"
+                "                  verified. <br><br>You’re all set to begin exploring and enjoying seamless appointment booking with integrated journals and logs.\n"
                 +
                 "                  Simply click the button below to log in and start using WellTalk.\n" +
                 "                </p>\n" +

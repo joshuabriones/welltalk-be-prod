@@ -57,4 +57,26 @@ public class EmailService {
         helper.setText(htmlBody, true);
         mailSender.send(message);
     }
+
+    public void sendHtmlMessage(String to, String subject, String htmlBody, String pathToImage1, String pathToImage2)
+            throws MessagingException {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+        helper.setFrom("alferkesa@gmail.com");
+        helper.setTo(to);
+        helper.setSubject(subject);
+        helper.setText(htmlBody, true);
+
+        // Embedding first image
+        FileSystemResource res1 = new FileSystemResource(pathToImage1);
+        helper.addInline("imageId1", res1);
+
+        // Embedding second image
+        FileSystemResource res2 = new FileSystemResource(pathToImage2);
+        helper.addInline("imageId2", res2);
+
+        mailSender.send(message);
+    }
+
 }
