@@ -29,7 +29,7 @@ public class CounselorService {
     }
 
     public List<CounselorEntity> getAllCounselors() {
-        return counselorRepository.findByIsDeletedFalse();
+        return counselorRepository.findByIsDeletedFalseAndIsVerifiedTrue();
     }
 
     public CounselorEntity getCounselorById(int id) {

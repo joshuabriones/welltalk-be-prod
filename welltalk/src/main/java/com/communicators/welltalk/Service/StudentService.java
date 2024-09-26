@@ -21,7 +21,7 @@ public class StudentService {
     AssignedCounselorService assignedCounselorService;
 
     public List<StudentEntity> getAllStudents() {
-        return studentRepository.findByIsDeletedFalse();
+        return studentRepository.findByIsDeletedFalseAndIsVerifiedTrue();
     }
 
     public StudentEntity getStudentById(int id) {

@@ -9,28 +9,25 @@ public class ChatEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "message_id")
-    private int messageId;
+    private Long id;
 
-    @Column(name = "sender_id")
     private int senderId;
-
-    @Column(name = "receiver_id")
     private int receiverId;
-
-    @Column(name = "message")
-    private String message;
-
-    @Column(name = "timestamp")
+    private String content;
     private LocalDateTime timestamp;
 
-    // Getters and Setters
-    public int getMessageId() {
-        return messageId;
+    public ChatEntity() {
     }
 
-    public void setMessageId(int messageId) {
-        this.messageId = messageId;
+    public ChatEntity(int senderId, int receiverId, String content, LocalDateTime timestamp) {
+        this.senderId = senderId;
+        this.receiverId = receiverId;
+        this.content = content;
+        this.timestamp = timestamp;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public int getSenderId() {
@@ -49,12 +46,12 @@ public class ChatEntity {
         this.receiverId = receiverId;
     }
 
-    public String getMessage() {
-        return message;
+    public String getContent() {
+        return content;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public LocalDateTime getTimestamp() {
@@ -65,15 +62,7 @@ public class ChatEntity {
         this.timestamp = timestamp;
     }
 
-    public ChatEntity() {
-    }
-    public ChatEntity(int messageId, int senderId, int receiverId, String message, LocalDateTime timestamp) {
-        this.messageId = messageId;
-        this.senderId = senderId;
-        this.receiverId = receiverId;
-        this.message = message;
-        this.timestamp = timestamp;
-    }
+
 
     
 }
