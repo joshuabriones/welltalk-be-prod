@@ -49,6 +49,12 @@ public class JournalController {
         return new ResponseEntity<>(journals, HttpStatus.OK);
     }
 
+    @GetMapping("/getPublicJournalByStudentId/{id}")
+    public ResponseEntity<List<JournalEntity>> getPublicJournalByStudentId(@PathVariable int id) {
+        List<JournalEntity> journals = journalService.getPublicJournalsByStudentId(id);
+        return new ResponseEntity<>(journals, HttpStatus.OK);
+    }
+
     @PostMapping("/createJournal")
     public ResponseEntity<JournalEntity> insertJournal(@RequestParam int userId, @RequestBody JournalEntity journal) {
         JournalEntity newJournal = journalService.saveJournal(userId, journal);

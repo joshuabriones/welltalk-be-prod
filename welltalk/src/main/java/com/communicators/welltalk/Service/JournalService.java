@@ -29,6 +29,10 @@ public class JournalService {
         return journalRepository.findByStudentIdAndIsDeletedFalse(id);
     }
 
+    public List<JournalEntity> getPublicJournalsByStudentId(int id) {
+        return journalRepository.findByStudentIdAndIsDeletedFalseAndIsPublicTrue(id);
+    }
+
     public JournalEntity saveJournal(int id, JournalEntity journal) {
         journal.setStudent(studentService.getStudentById(id));
         return journalRepository.save(journal);
@@ -42,6 +46,7 @@ public class JournalService {
 
             journalToUpdate.setEntry(journal.getEntry());
             journalToUpdate.setTitle(journal.getTitle());
+            journalToUpdate.setIsPublic(journal.getIsPublic());
 
         } catch (Exception e) {
             throw new IllegalArgumentException("Journal " + journal.getJournalId() + " does not exist.");
