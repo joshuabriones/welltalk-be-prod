@@ -1,5 +1,8 @@
 package com.communicators.welltalk.Controller;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -15,10 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.communicators.welltalk.Service.AppointmentService;
 import com.communicators.welltalk.Entity.AppointmentEntity;
-
-import java.time.LocalDate;
+import com.communicators.welltalk.Service.AppointmentService;
 
 @CrossOrigin("http://localhost:3000")
 @RestController
@@ -40,6 +41,16 @@ public class AppointmentController {
     public ResponseEntity<?> getAppointmentsByDate(
             @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         return new ResponseEntity<>(appointmentService.getAppointmentsByDate(date), HttpStatus.OK);
+    }
+
+    @PostMapping("/counselorSaveAppointment/{counselorId}")
+    public ResponseEntity<AppointmentEntity> counselorSaveAppointment(
+            @PathVariable int counselorId,
+            @RequestParam int studentId,
+            @RequestBody AppointmentEntity appointment) {
+        AppointmentEntity newAppointment = appointmentService.counselorSaveAppointment(counselorId, studentId,
+                appointment);
+        return new ResponseEntity<>(newAppointment, HttpStatus.CREATED);
     }
 
     @PostMapping("/createAppointment")
@@ -109,6 +120,15 @@ public class AppointmentController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/getAppointmentsByCounselorId/{counselorId}")
+    public ResponseEntity<List<AppointmentEntity>> getAppointmentsByCounselorId(@PathVariable int counselorId) {
+        List<AppointmentEntity> appointments = appointmentService.getAppointmentsByCounselorId(counselorId);
+        if (appointments.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(appointments, HttpStatus.OK);
     }
 
 }

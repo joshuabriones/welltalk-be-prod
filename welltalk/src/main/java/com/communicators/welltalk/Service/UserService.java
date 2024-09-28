@@ -18,7 +18,10 @@ public class UserService implements UserDetailsService {
     UserRepository userRepository;
 
     @Autowired
-    AssignedCounselorService assignmentService; 
+    AssignedCounselorService assignmentService;
+
+    @Autowired
+    EmailTemplates emailTemplates;
 
     public List<UserEntity> getAllUsers() {
         return userRepository.findByIsDeletedFalse();
@@ -91,8 +94,9 @@ public class UserService implements UserDetailsService {
         UserEntity user = userRepository.findById(id).get();
         if (user != null) {
             user.setIsVerified(true);
-            userRepository.save(user); 
-            assignmentService.assignCounselorIfVerified(user); 
+            userRepository.save(user);
+            assignmentService.assignCounselorIfVerified(user);
+            emailTemplates.sendVerificationEmail(user.getInstitutionalEmail());
             return true;
         } else {
             System.out.println("User " + id + " does not exist.");

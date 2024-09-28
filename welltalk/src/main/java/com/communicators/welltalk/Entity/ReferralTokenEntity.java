@@ -9,8 +9,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
 
-import com.communicators.welltalk.Entity.ReferralEntity;
-
 import java.util.Date;
 
 @Entity

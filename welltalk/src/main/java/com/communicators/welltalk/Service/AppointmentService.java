@@ -1,6 +1,7 @@
 package com.communicators.welltalk.Service;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +16,7 @@ import com.communicators.welltalk.Entity.ReferralEntity;
 import com.communicators.welltalk.Entity.Role;
 import com.communicators.welltalk.Entity.StudentEntity;
 import com.communicators.welltalk.Repository.AppointmentRepository;
+import com.communicators.welltalk.Repository.CounselorRepository;
 import com.communicators.welltalk.Repository.ReferralRepository;
 
 @Service
@@ -40,6 +42,9 @@ public class AppointmentService {
 
     @Autowired
     AssignedCounselorService assignedCounselorService;
+
+    @Autowired
+    CounselorRepository counselorRepository;
 
     // public AppointmentEntity saveAppointment(int id, AppointmentEntity appointment) {
     //     if (checkAppointmentIsTaken(appointment.getAppointmentDate(), appointment.getAppointmentStartTime())) {
@@ -91,6 +96,18 @@ public class AppointmentService {
 
     //     return appointmentCreated;
     // }
+
+    public AppointmentEntity counselorSaveAppointment(int counselorId, int studentId, AppointmentEntity appointment) {
+        CounselorEntity counselor = counselorRepository.findByIdAndIsDeletedFalse(counselorId)
+                .orElseThrow(() -> new IllegalArgumentException("Counselor with ID " + counselorId + " does not exist or is deleted."));
+        StudentEntity student = studentService.getStudentById(studentId);
+    
+        appointment.setCounselor(counselor);
+        appointment.setStudent(student);
+        appointment.setAppointmentStatus("Pending");
+    
+        return appointmentRepository.save(appointment);
+    }
 
     public AppointmentEntity saveAppointment(int id, AppointmentEntity appointment) {
         StudentEntity student = studentService.getStudentById(id);
@@ -337,4 +354,19 @@ public class AppointmentService {
             return false;
         }
     }
+
+
+    public List<AppointmentEntity> getAppointmentsByCounselorId(int counselorId) {
+        CounselorEntity counselor = counselorRepository.findByIdAndIsDeletedFalse(counselorId)
+                .orElseThrow(() -> new IllegalArgumentException("Counselor with ID " + counselorId + " does not exist or is deleted."));
+        List<AppointmentEntity> appointments = appointmentRepository.findByCounselorAndIsDeletedFalse(counselor);
+    
+        // Sort appointments by appointmentDate and appointmentStartTime
+        appointments.sort(Comparator.comparing(AppointmentEntity::getAppointmentDate)
+                .thenComparing(AppointmentEntity::getAppointmentStartTime));
+    
+        return appointments;
+    }
+    
+    
 }
