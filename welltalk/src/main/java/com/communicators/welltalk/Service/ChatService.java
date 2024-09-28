@@ -1,7 +1,7 @@
 package com.communicators.welltalk.Service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.communicators.welltalk.Entity.ChatEntity;
 import com.communicators.welltalk.Repository.ChatRepository;
 
@@ -10,14 +10,15 @@ import java.util.List;
 @Service
 public class ChatService {
 
-    @Autowired
-    private ChatRepository chatRepository;
+    private final ChatRepository chatMessageRepository;
 
-    public ChatEntity saveMessage(ChatEntity message ) {
-        return chatRepository.save(message);
+    public ChatService(ChatRepository chatMessageRepository) {
+        this.chatMessageRepository = chatMessageRepository;
     }
 
-    public List<ChatEntity> getMessages(int senderId, int receiverId) {
-        return chatRepository.findBySenderIdAndReceiverId(senderId, receiverId);
+    public List<ChatEntity> getChatHistory(int senderId, int receiverId) {
+        // Fetch messages for both sender and receiver
+
+        return chatMessageRepository.findChatBetweenUsers(senderId, receiverId);
     }
 }
