@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -58,11 +59,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         new WebAuthenticationDetailsSource().buildDetails(request));
 
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+
+                // Set HttpOnly cookie
+                Cookie cookie = new Cookie("token", token);
+                cookie.setHttpOnly(true);
+                cookie.setSecure(true); // Ensure this is set if using HTTPS
+                cookie.setPath("/");
+                cookie.setMaxAge(36000);
+                response.addCookie(cookie);
+
+                // System.out.println("Cookie set: " + cookie.getName() + ", HttpOnly: " +
+                // cookie.isHttpOnly()
+                // + ", Secure: "
+                // + cookie.getSecure() + ", Path: " + cookie.getPath() + ", MaxAge: " +
+                // cookie.getMaxAge());
             }
         }
 
         filterChain.doFilter(request, response);
-
     }
-
 }
