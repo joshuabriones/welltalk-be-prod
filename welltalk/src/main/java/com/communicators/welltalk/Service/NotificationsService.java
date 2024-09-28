@@ -1,12 +1,13 @@
 package com.communicators.welltalk.Service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.communicators.welltalk.Repository.NotificationsRepository;
+
 import com.communicators.welltalk.Entity.NotificationsEntity;
 import com.communicators.welltalk.Entity.UserEntity;
-
-import java.util.List;
+import com.communicators.welltalk.Repository.NotificationsRepository;
 
 @Service
 public class NotificationsService {
@@ -39,6 +40,17 @@ public class NotificationsService {
                 .orElseThrow(() -> new RuntimeException("Notification not found"));
         notification.setRead(true);
         notificationsRepository.save(notification);
+    }
+
+    public NotificationsEntity createNotification(int userId, NotificationsEntity notificationDetails) {
+        // Retrieve the user by userId
+        UserEntity user = userService.getUserById(userId);
+        
+        // Create a new NotificationsEntity using the notification details and user
+        NotificationsEntity notification = new NotificationsEntity(notificationDetails.getMessage(), notificationDetails.getType(), user);
+        
+        // Save the notification entity
+        return notificationsRepository.save(notification);
     }
 
 }

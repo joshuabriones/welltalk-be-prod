@@ -1,15 +1,16 @@
 package com.communicators.welltalk.Entity;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
-import javax.persistence.GenerationType;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tblnotifications")
@@ -17,12 +18,12 @@ public class NotificationsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int notificationId;
-    private String message;
-    private LocalDateTime date;
-    private boolean isRead;
-    private LocalDateTime readDate;
     private String type;
-
+    private String message;
+    private boolean isRead;
+    private LocalDateTime date;
+    private LocalDateTime readDate;
+    
     @ManyToOne
     @JoinColumn(name = "userId", referencedColumnName = "id")
     private UserEntity user;
@@ -42,6 +43,14 @@ public class NotificationsEntity {
         this.user = user;
         this.type = type;
         this.isRead = false;
+    }
+
+    public NotificationsEntity(String message, String type, UserEntity user) {
+        this.message = message;
+        this.type = type;
+        this.user = user;
+        this.isRead = false;  
+        this.date = LocalDateTime.now();  
     }
 
     public NotificationsEntity() {
