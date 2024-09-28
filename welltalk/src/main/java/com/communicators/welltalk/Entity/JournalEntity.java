@@ -35,6 +35,8 @@ public class JournalEntity {
 
     private LocalTime timeOfEntry;
 
+    private boolean isPublic;
+
     private boolean isDeleted;
 
     private LocalDate dateOfUpdate;
@@ -44,11 +46,12 @@ public class JournalEntity {
     public JournalEntity() {
     }
 
-    public JournalEntity(StudentEntity student, String title, String entry, LocalDate dateOfEntry,
+    public JournalEntity(StudentEntity student, String title, String entry, boolean isPublic, LocalDate dateOfEntry,
             LocalTime timeOfEntry) {
         this.student = student;
         this.title = title;
         this.entry = entry;
+        this.isPublic = isPublic;
         this.dateOfEntry = dateOfEntry;
         this.timeOfEntry = timeOfEntry;
         isDeleted = false;
@@ -84,6 +87,14 @@ public class JournalEntity {
 
     public void setEntry(String entry) {
         this.entry = entry;
+    }
+
+    public boolean getIsPublic() {
+        return isPublic;
+    }
+
+    public void setIsPublic(boolean isPublic) {
+        this.isPublic = isPublic;
     }
 
     public LocalDate getDateOfEntry() {

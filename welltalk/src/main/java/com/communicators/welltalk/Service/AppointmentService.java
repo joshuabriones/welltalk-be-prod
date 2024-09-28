@@ -1,6 +1,8 @@
 package com.communicators.welltalk.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -46,66 +48,78 @@ public class AppointmentService {
     @Autowired
     CounselorRepository counselorRepository;
 
-    // public AppointmentEntity saveAppointment(int id, AppointmentEntity appointment) {
-    //     if (checkAppointmentIsTaken(appointment.getAppointmentDate(), appointment.getAppointmentStartTime())) {
-    //         throw new IllegalArgumentException("Date and Time is already taken");
-    //     }
+    // public AppointmentEntity saveAppointment(int id, AppointmentEntity
+    // appointment) {
+    // if (checkAppointmentIsTaken(appointment.getAppointmentDate(),
+    // appointment.getAppointmentStartTime())) {
+    // throw new IllegalArgumentException("Date and Time is already taken");
+    // }
 
-    //     StudentEntity student = studentService.getStudentById(id);
+    // StudentEntity student = studentService.getStudentById(id);
 
-    //     appointment.setStudent(student);
-    //     appointment.setAppointmentStatus("Pending");
+    // appointment.setStudent(student);
+    // appointment.setAppointmentStatus("Pending");
 
-    //     if (appointment.getAppointmentType().equals("Referral")) {
-    //         ReferralEntity referral = referralRepository
-    //                 .findByStudentIdAndIsDeletedFalse(appointment.getStudent().getIdNumber());
-    //         if (referral != null) {
-    //             System.out.print("Referral founder" + referral.getStudentEmail());
+    // if (appointment.getAppointmentType().equals("Referral")) {
+    // ReferralEntity referral = referralRepository
+    // .findByStudentIdAndIsDeletedFalse(appointment.getStudent().getIdNumber());
+    // if (referral != null) {
+    // System.out.print("Referral founder" + referral.getStudentEmail());
 
-    //             String messageToTeacher = "An appointment has been made for the student you referred. Student: "
-    //                     + appointment.getReferral().getStudentFirstName()
-    //                     + " " + appointment.getReferral().getStudentLastName() + " Email: "
-    //                     + appointment.getReferral().getStudentEmail();
+    // String messageToTeacher = "An appointment has been made for the student you
+    // referred. Student: "
+    // + appointment.getReferral().getStudentFirstName()
+    // + " " + appointment.getReferral().getStudentLastName() + " Email: "
+    // + appointment.getReferral().getStudentEmail();
 
-    //             emailService.sendSimpleMessage(appointment.getReferral().getTeacher().getInstitutionalEmail(),
-    //                     "Appointment Created", messageToTeacher);
+    // emailService.sendSimpleMessage(appointment.getReferral().getTeacher().getInstitutionalEmail(),
+    // "Appointment Created", messageToTeacher);
 
-    //             referral.setStatus("Appointment");
-    //             referralRepository.save(referral);
-    //         }
-    //     }
-    //     // // Assign available counselor based on assigned counselor service
-    //     // List<AssignedCounselorEntity> assignedCounselors = assignedCounselorService.getByStudentId(student.getId());
-    //     // CounselorEntity availableCounselor = findAvailableCounselor(assignedCounselors,
-    //     //         appointment.getAppointmentDate(), appointment.getAppointmentStartTime());
-    //     // if (availableCounselor != null) {
-    //     //     appointment.setCounselor(availableCounselor);
-    //     // } else {
-    //     //     throw new IllegalArgumentException("No available counselor for the selected timeslot.");
-    //     // }
+    // referral.setStatus("Appointment");
+    // referralRepository.save(referral);
+    // }
+    // }
+    // // // Assign available counselor based on assigned counselor service
+    // // List<AssignedCounselorEntity> assignedCounselors =
+    // assignedCounselorService.getByStudentId(student.getId());
+    // // CounselorEntity availableCounselor =
+    // findAvailableCounselor(assignedCounselors,
+    // // appointment.getAppointmentDate(), appointment.getAppointmentStartTime());
+    // // if (availableCounselor != null) {
+    // // appointment.setCounselor(availableCounselor);
+    // // } else {
+    // // throw new IllegalArgumentException("No available counselor for the
+    // selected timeslot.");
+    // // }
 
-    //     // AppointmentEntity appointmentCreated = appointmentRepository.save(appointment);
-    //     // //
-    //     String message = "An appointment has been created for you. Date: " + appointment.getAppointmentDate()
-    //             + " Time: "
-    //             + appointment.getAppointmentStartTime() + " Purpose: " + appointment.getAppointmentPurpose() + " Type: "
-    //             + appointment.getAppointmentType() + " Please wait for the counselor to assign you a time.";
+    // // AppointmentEntity appointmentCreated =
+    // appointmentRepository.save(appointment);
+    // // //
+    // String message = "An appointment has been created for you. Date: " +
+    // appointment.getAppointmentDate()
+    // + " Time: "
+    // + appointment.getAppointmentStartTime() + " Purpose: " +
+    // appointment.getAppointmentPurpose() + " Type: "
+    // + appointment.getAppointmentType() + " Please wait for the counselor to
+    // assign you a time.";
 
-    //     emailService.sendSimpleMessage(appointmentCreated.getStudent().getInstitutionalEmail(), "Appointment Created",
-    //             message);
+    // emailService.sendSimpleMessage(appointmentCreated.getStudent().getInstitutionalEmail(),
+    // "Appointment Created",
+    // message);
 
-    //     return appointmentCreated;
+    // return appointmentCreated;
     // }
 
     public AppointmentEntity counselorSaveAppointment(int counselorId, int studentId, AppointmentEntity appointment) {
         CounselorEntity counselor = counselorRepository.findByIdAndIsDeletedFalse(counselorId)
-                .orElseThrow(() -> new IllegalArgumentException("Counselor with ID " + counselorId + " does not exist or is deleted."));
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Counselor with ID " + counselorId + " does not exist or is deleted."));
         StudentEntity student = studentService.getStudentById(studentId);
-    
+
         appointment.setCounselor(counselor);
         appointment.setStudent(student);
         appointment.setAppointmentStatus("Pending");
-    
+
         return appointmentRepository.save(appointment);
     }
 
@@ -116,7 +130,8 @@ public class AppointmentService {
 
         // Assign available counselor based on assigned counselor service
         List<AssignedCounselorEntity> assignedCounselors = assignedCounselorService.getByStudentId(student.getId());
-        CounselorEntity availableCounselor = findAvailableCounselor(assignedCounselors, appointment.getAppointmentDate(), appointment.getAppointmentStartTime());
+        CounselorEntity availableCounselor = findAvailableCounselor(assignedCounselors,
+                appointment.getAppointmentDate(), appointment.getAppointmentStartTime());
         if (availableCounselor != null) {
             appointment.setCounselor(availableCounselor);
         } else {
@@ -129,7 +144,8 @@ public class AppointmentService {
                 + " Time: " + appointment.getAppointmentStartTime() + " Purpose: " + appointment.getAppointmentPurpose()
                 + " Type: " + appointment.getAppointmentType() + " Please wait for the counselor to assign you a time.";
 
-        emailService.sendSimpleMessage(appointmentCreated.getStudent().getInstitutionalEmail(), "Appointment Created", message);
+        emailService.sendSimpleMessage(appointmentCreated.getStudent().getInstitutionalEmail(), "Appointment Created",
+                message);
 
         return appointmentCreated;
     }
@@ -241,7 +257,21 @@ public class AppointmentService {
     }
 
     public List<AppointmentEntity> getAppointmentsByDate(LocalDate date) {
-        return appointmentRepository.findByAppointmentDateAndIsDeletedFalse(date);
+        List<AppointmentEntity> appointments = appointmentRepository.findByAppointmentDateAndIsDeletedFalse(date);
+        LocalDateTime now = LocalDateTime.now();
+
+        for (AppointmentEntity appointment : appointments) {
+            LocalDateTime appointmentStart = LocalDateTime.of(appointment.getAppointmentDate(),
+                    LocalTime.parse(appointment.getAppointmentStartTime()));
+            LocalDateTime appointmentEnd = appointmentStart.plusHours(1);
+
+            if (now.isAfter(appointmentStart) && now.isBefore(appointmentEnd)) {
+                appointment.setAppointmentStatus("Ongoing");
+                appointmentRepository.save(appointment);
+            }
+        }
+
+        return appointments;
     }
 
     public boolean checkAppointmentIsTaken(LocalDate date, String startTime) {
@@ -355,18 +385,17 @@ public class AppointmentService {
         }
     }
 
-
     public List<AppointmentEntity> getAppointmentsByCounselorId(int counselorId) {
         CounselorEntity counselor = counselorRepository.findByIdAndIsDeletedFalse(counselorId)
-                .orElseThrow(() -> new IllegalArgumentException("Counselor with ID " + counselorId + " does not exist or is deleted."));
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Counselor with ID " + counselorId + " does not exist or is deleted."));
         List<AppointmentEntity> appointments = appointmentRepository.findByCounselorAndIsDeletedFalse(counselor);
-    
+
         // Sort appointments by appointmentDate and appointmentStartTime
         appointments.sort(Comparator.comparing(AppointmentEntity::getAppointmentDate)
                 .thenComparing(AppointmentEntity::getAppointmentStartTime));
-    
+
         return appointments;
     }
-    
-    
+
 }
