@@ -1,5 +1,6 @@
 package com.communicators.welltalk.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,15 +35,29 @@ public class NotificationsService {
         return notificationsRepository.save(notification);
     }
 
-    public List<NotificationsEntity> getNotificationsForReceiver(int receiverId) {
+    public List<NotificationsEntity> getNotificationsForStudents(int receiverId) {
         UserEntity receiver = userService.getUserById(receiverId);
         return notificationsRepository.findByReceiver(receiver);
+    }
+
+    public List<NotificationsEntity> getNotificationsForCounselors(int senderId, int receiverId) {
+        UserEntity sender = userService.getUserById(senderId);
+        UserEntity receiver = userService.getUserById(receiverId);
+       
+        
+        List<NotificationsEntity> senderNotifications = notificationsRepository.findBySender(sender);
+        List<NotificationsEntity> receiverNotifications = notificationsRepository.findByReceiver(receiver);
+        
+        List<NotificationsEntity> notifications = new ArrayList<>();
+        notifications.addAll(senderNotifications);
+        notifications.addAll(receiverNotifications);
+        
+        return notifications;
     }
 
     public void deleteNotification(int notificationId) {
         notificationsRepository.deleteById(notificationId);
     }
-    
     // public List<NotificationsEntity> getNotificationsForUser(int userId) {
     //     UserEntity user = userService.getUserById(userId);
     //     return notificationsRepository.findByUser(user);

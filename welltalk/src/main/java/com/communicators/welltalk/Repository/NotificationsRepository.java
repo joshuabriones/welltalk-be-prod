@@ -17,6 +17,7 @@ public interface NotificationsRepository extends JpaRepository<NotificationsEnti
 
     // List<NotificationsEntity> findByUserOrderByDateDesc(UserEntity user);
 
+    List<NotificationsEntity> findBySender(UserEntity sender);
     List<NotificationsEntity> findByReceiver(UserEntity receiver);
 
 }
