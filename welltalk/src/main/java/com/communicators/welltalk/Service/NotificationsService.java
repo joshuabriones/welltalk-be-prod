@@ -1,5 +1,7 @@
 package com.communicators.welltalk.Service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,36 @@ public class NotificationsService {
     @Autowired
     private AppointmentService appointmentService;
 
+    // Appointment
+    public NotificationsEntity createAppointmentNotification(int senderId, NotificationsDTO notificationDetails) {
+        String type = "appointment";
+        UserEntity sender = userService.getUserById(senderId);
+        UserEntity receiver = userService.getUserById(notificationDetails.getReceiverId());
+        AppointmentEntity appointment = appointmentService.getAppointmentByAppointmentId(notificationDetails.getAppointmentId());
+
+        NotificationsEntity notification = new NotificationsEntity(type, sender, receiver, appointment);
+        return notificationsRepository.save(notification);
+    }
+
+    public List<NotificationsEntity> getNotificationsForReceiver(int receiverId) {
+        UserEntity receiver = userService.getUserById(receiverId);
+        return notificationsRepository.findByReceiver(receiver);
+    }
+
+    public void deleteNotification(int notificationId) {
+        notificationsRepository.deleteById(notificationId);
+    }
+    
+    // public List<NotificationsEntity> getNotificationsForUser(int userId) {
+    //     UserEntity user = userService.getUserById(userId);
+    //     return notificationsRepository.findByUser(user);
+    // }
+
+    // public List<NotificationsEntity> getNotificationsForUser(int userId) {
+    //     UserEntity user = userService.getUserById(userId);
+    //     return notificationsRepository.findByUser(user);
+    // }
+
     // public List<NotificationsEntity> getAllNotifications() {
     //     return notificationsRepository.findAll();
     // }
@@ -40,22 +72,6 @@ public class NotificationsService {
     //     notificationsRepository.save(notification);
     // }
 
-    // Create
-    public NotificationsEntity createAppointmentNotification(int senderId, NotificationsDTO notificationDetails) {
-        String type = "appointment";
-        UserEntity sender = userService.getUserById(senderId);
-        UserEntity receiver = userService.getUserById(notificationDetails.getReceiverId());
-        AppointmentEntity appointment = appointmentService.getAppointmentByAppointmentId(notificationDetails.getAppointmentId());
-
-        NotificationsEntity notification = new NotificationsEntity(type, sender, receiver, appointment);
-        return notificationsRepository.save(notification);
-    }
-
-
-    // Read
-    // public List<NotificationsEntity> getNotificationsForUser(int userId) {
-    //     UserEntity user = userService.getUserById(userId);
-    //     return notificationsRepository.findByUser(user);
-    // }
+    
 
 }

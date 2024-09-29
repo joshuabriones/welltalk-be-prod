@@ -1,8 +1,12 @@
 package com.communicators.welltalk.Controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +28,25 @@ public class NotificationsController {
     @Autowired
     private WebSocketNotificationService webSocketNotificationService;
 
+    // Appointment
+    @PostMapping("/createAppointmentNotification")
+    public ResponseEntity<NotificationsEntity> createAppointmentNotification(@RequestParam int senderId, @RequestBody NotificationsDTO notificationDetails){
+    NotificationsEntity newNotification = notificationsService.createAppointmentNotification(senderId, notificationDetails);
+        return new ResponseEntity<>(newNotification, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/getNotificationsForReceiver")
+    public ResponseEntity<List<NotificationsEntity>> getNotificationsForReceiver(@RequestParam int receiverId) {
+        List<NotificationsEntity> notifications = notificationsService.getNotificationsForReceiver(receiverId);
+        return new ResponseEntity<>(notifications, HttpStatus.OK);
+    }
+    
+    @DeleteMapping("/deleteNotification")
+    public ResponseEntity<Void> deleteNotification(@RequestParam int notificationId) {
+        notificationsService.deleteNotification(notificationId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT); 
+    }
+    
     // @GetMapping("/getAllNotifications")
     // public ResponseEntity<?> getAllNotifications() {
     //     return new ResponseEntity<>(notificationsService.getAllNotifications(), HttpStatus.OK);
@@ -48,11 +71,7 @@ public class NotificationsController {
     //     return new ResponseEntity<>(newNotification, HttpStatus.CREATED);
     // }
 
-    @PostMapping("/createAppointmentNotification")
-    public ResponseEntity<NotificationsEntity> createAppointmentNotification(@RequestParam int senderId, @RequestBody NotificationsDTO notificationDetails){
-        NotificationsEntity newNotification = notificationsService.createAppointmentNotification(senderId, notificationDetails);
-        return new ResponseEntity<>(newNotification, HttpStatus.CREATED);
-    }
+   
 
     // @GetMapping("/getNotificationsForUser")
     // public ResponseEntity<?> getNotificationsForUser(@RequestParam int userId) {
