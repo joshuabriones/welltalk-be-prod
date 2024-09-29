@@ -9,7 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 @Entity
@@ -19,43 +18,43 @@ public class NotificationsEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int notificationId;
     private String type;
-    private String message;
     private boolean isRead;
     private LocalDateTime date;
-    private LocalDateTime readDate;
-    
+
     @ManyToOne
-    @JoinColumn(name = "userId", referencedColumnName = "id")
-    private UserEntity user;
+    @JoinColumn(name = "sender_id", referencedColumnName = "id")
+    private UserEntity sender;
 
-    public NotificationsEntity(int notificationId, String message, LocalDateTime date,
-            boolean isRead,
-            UserEntity user) {
-        this.notificationId = notificationId;
-        this.message = message;
-        this.date = date;
-        this.isRead = isRead;
-        this.user = user;
-    }
+    @ManyToOne
+    @JoinColumn(name = "receiver_id", referencedColumnName = "id")
+    private UserEntity receiver;
 
-    public NotificationsEntity(String message, UserEntity user, String type) {
-        this.message = message;
-        this.user = user;
-        this.type = type;
-        this.isRead = false;
-    }
-
-    public NotificationsEntity(String message, String type, UserEntity user) {
-        this.message = message;
-        this.type = type;
-        this.user = user;
-        this.isRead = false;  
-        this.date = LocalDateTime.now();  
-    }
+    @ManyToOne
+    @JoinColumn(name = "app_id", referencedColumnName = "appointmentId")
+    private AppointmentEntity appointment; 
 
     public NotificationsEntity() {
     }
 
+    public NotificationsEntity(int notificationId, String type, boolean isRead, LocalDateTime date, UserEntity sender,
+            UserEntity receiver, AppointmentEntity appointment) {
+        this.notificationId = notificationId;
+        this.type = type;
+        this.isRead = isRead;
+        this.date = date;
+        this.sender = sender;
+        this.receiver = receiver;
+        this.appointment = appointment;
+    }
+
+    // appointment
+    public NotificationsEntity(String type, UserEntity sender, UserEntity receiver, AppointmentEntity appointment) {
+        this.type = type;
+        this.sender = sender;
+        this.receiver = receiver;
+        this.appointment = appointment;
+    }
+   
     public int getNotificationId() {
         return notificationId;
     }
@@ -64,21 +63,12 @@ public class NotificationsEntity {
         this.notificationId = notificationId;
     }
 
-    public String getMessage() {
-        return message;
+    public String getType() {
+        return type;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public LocalDateTime getDate() {
-        return date;
-    }
-
-    @PrePersist
-    protected void onCreate() {
-        date = LocalDateTime.now();
+    public void setType(String type) {
+        this.type = type;
     }
 
     public boolean isRead() {
@@ -89,29 +79,46 @@ public class NotificationsEntity {
         this.isRead = isRead;
     }
 
-    public UserEntity getUser() {
-        return user;
+    public LocalDateTime getDate() {
+        return date;
     }
 
-    public void setUser(UserEntity user) {
-        this.user = user;
+    public void setDate(LocalDateTime date) {
+        this.date = date;
     }
 
-    @PreUpdate
-    protected void onUpdate() {
-        readDate = LocalDateTime.now();
+    public UserEntity getSender() {
+        return sender;
     }
 
-    public LocalDateTime getReadDate() {
-        return readDate;
+    public void setSender(UserEntity sender) {
+        this.sender = sender;
     }
 
-    public String getType() {
-        return type;
+    public UserEntity getReceiver() {
+        return receiver;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setReceiver(UserEntity receiver) {
+        this.receiver = receiver;
     }
+
+    public AppointmentEntity getAppointment() {
+        return appointment;
+    }
+
+    public void setAppointment(AppointmentEntity appointment) {
+        this.appointment = appointment;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        date = LocalDateTime.now();
+    }
+
+    // @PreUpdate
+    // protected void onUpdate() {
+    //     readDate = LocalDateTime.now();
+    // }
 
 }
