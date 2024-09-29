@@ -48,6 +48,7 @@ public class AppointmentService {
     @Autowired
     CounselorRepository counselorRepository;
 
+    
     // public AppointmentEntity saveAppointment(int id, AppointmentEntity
     // appointment) {
     // if (checkAppointmentIsTaken(appointment.getAppointmentDate(),
@@ -289,7 +290,13 @@ public class AppointmentService {
 
     public List<AppointmentEntity> getAppointmentsByStudent(int studentId) {
         StudentEntity student = studentService.getStudentById(studentId);
-        return appointmentRepository.findByStudentAndIsDeletedFalse(student);
+        List<AppointmentEntity> appointments = appointmentRepository.findByStudentAndIsDeletedFalse(student);
+    
+        // Sort appointments by appointmentDate and appointmentStartTime in descending order
+        appointments.sort(Comparator.comparing(AppointmentEntity::getAppointmentDate)
+                .thenComparing(AppointmentEntity::getAppointmentStartTime));
+    
+        return appointments;
     }
 
     @SuppressWarnings("finally")
