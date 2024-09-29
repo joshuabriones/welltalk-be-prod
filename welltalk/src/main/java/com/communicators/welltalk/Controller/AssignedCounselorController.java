@@ -63,6 +63,7 @@ public class AssignedCounselorController {
         }
     }
 
+    
     @GetMapping("/getCounselorByTeacherId/{teacherId}")
     public ResponseEntity<List<CounselorEntity>> getCounselorByTeacherId(@PathVariable int teacherId) {
         List<AssignedCounselorEntity> assignedCounselors = assignedCounselorService.getByTeacherId(teacherId);

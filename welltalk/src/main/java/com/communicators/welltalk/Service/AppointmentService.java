@@ -48,7 +48,6 @@ public class AppointmentService {
     @Autowired
     CounselorRepository counselorRepository;
 
-    
     // public AppointmentEntity saveAppointment(int id, AppointmentEntity
     // appointment) {
     // if (checkAppointmentIsTaken(appointment.getAppointmentDate(),
@@ -275,6 +274,29 @@ public class AppointmentService {
         return appointments;
     }
 
+    public List<AppointmentEntity> getAppointmentsByDateAndCounselor(LocalDate date, int counselorId) {
+        CounselorEntity counselor = counselorRepository.findByIdAndIsDeletedFalse(counselorId)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Counselor with ID " + counselorId + " does not exist or is deleted."));
+
+        List<AppointmentEntity> appointments = appointmentRepository
+                .findByCounselorAndAppointmentDateAndIsDeletedFalse(counselor, date);
+        LocalDateTime now = LocalDateTime.now();
+
+        for (AppointmentEntity appointment : appointments) {
+            LocalDateTime appointmentStart = LocalDateTime.of(appointment.getAppointmentDate(),
+                    LocalTime.parse(appointment.getAppointmentStartTime()));
+            LocalDateTime appointmentEnd = appointmentStart.plusHours(1);
+
+            if (now.isAfter(appointmentStart) && now.isBefore(appointmentEnd)) {
+                appointment.setAppointmentStatus("Ongoing");
+                appointmentRepository.save(appointment);
+            }
+        }
+
+        return appointments;
+    }
+
     public boolean checkAppointmentIsTaken(LocalDate date, String startTime) {
         return appointmentRepository.existsByAppointmentDateAndAppointmentStartTimeAndIsDeletedFalse(date, startTime);
     }
@@ -291,11 +313,12 @@ public class AppointmentService {
     public List<AppointmentEntity> getAppointmentsByStudent(int studentId) {
         StudentEntity student = studentService.getStudentById(studentId);
         List<AppointmentEntity> appointments = appointmentRepository.findByStudentAndIsDeletedFalse(student);
-    
-        // Sort appointments by appointmentDate and appointmentStartTime in descending order
+
+        // Sort appointments by appointmentDate and appointmentStartTime in descending
+        // order
         appointments.sort(Comparator.comparing(AppointmentEntity::getAppointmentDate)
                 .thenComparing(AppointmentEntity::getAppointmentStartTime));
-    
+
         return appointments;
     }
 
