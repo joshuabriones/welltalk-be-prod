@@ -86,4 +86,8 @@ public class EmailTemplates {
             return "Failed to send email: " + e.getMessage();
         }
     }
+
+    public String sendAppointmentVerification(String to) {
+        return "fdrgf";
+    }
 }
