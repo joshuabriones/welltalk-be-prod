@@ -33,6 +33,12 @@ public class PostController {
         return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 
+    @GetMapping("/getAllPinnedPosts")
+    public ResponseEntity<List<PostEntity>> getAllPinnedPosts() {
+        List<PostEntity> pinnedPosts = postService.getAllPinnedPosts();
+        return new ResponseEntity<>(pinnedPosts, HttpStatus.OK);
+    }
+
     @GetMapping("/getPostById/{id}")
     public ResponseEntity<PostEntity> getPostById(@PathVariable int id) {
         PostEntity post = postService.getPostById(id);
@@ -56,6 +62,24 @@ public class PostController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(updatedPost, HttpStatus.OK);
+    }
+
+    @PutMapping("/pinPost")
+    public ResponseEntity<PostEntity> pinPost(@RequestParam int id, @RequestBody PostEntity post) {
+        PostEntity pinPost = postService.pinPost(id, post);
+        if (pinPost == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(pinPost, HttpStatus.OK);
+    }
+
+    @PutMapping("/unpinPost")
+    public ResponseEntity<PostEntity> unpinPost(@RequestParam int id, @RequestBody PostEntity post) {
+        PostEntity unpinPost = postService.unpinPost(id, post);
+        if (unpinPost == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(unpinPost, HttpStatus.OK);
     }
 
     @DeleteMapping("/deletePost/{id}")

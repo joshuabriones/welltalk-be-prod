@@ -22,6 +22,11 @@ public class PostService {
         return postRepository.findByIsDeletedFalse(sort);
     }
 
+    public List<PostEntity> getAllPinnedPosts() {
+        Sort sort = Sort.by(Sort.Order.desc("postDate"), Sort.Order.desc("postTime"));
+        return postRepository.findByIsPinnedTrue(sort);
+    }
+
     public PostEntity getPostById(int id) {
         return postRepository.findByPostIdAndIsDeletedFalse(id).get();
     }
@@ -43,6 +48,32 @@ public class PostService {
             throw new IllegalArgumentException("Post " + post.getPostId() + " does not exist.");
         } finally {
             return postRepository.save(postToUpdate);
+        }
+    }
+
+    @SuppressWarnings("finally")
+    public PostEntity pinPost(int id, PostEntity post) {
+        PostEntity postToPin = new PostEntity();
+        try {
+            postToPin = postRepository.findByPostIdAndIsDeletedFalse(id).get();
+            postToPin.setIsPinned(true);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Post " + post.getPostId() + " does not exist.");
+        } finally {
+            return postRepository.save(postToPin);
+        }
+    }
+
+    @SuppressWarnings("finally")
+    public PostEntity unpinPost(int id, PostEntity post) {
+        PostEntity postToUnpin = new PostEntity();
+        try {
+            postToUnpin = postRepository.findByPostIdAndIsDeletedFalse(id).get();
+            postToUnpin.setIsPinned(true);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Post " + post.getPostId() + " does not exist.");
+        } finally {
+            return postRepository.save(postToUnpin);
         }
     }
 

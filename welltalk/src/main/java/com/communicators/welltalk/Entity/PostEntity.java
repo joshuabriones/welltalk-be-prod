@@ -40,6 +40,8 @@ public class PostEntity {
 
     private String postImage;
 
+    private boolean isPinned;
+
     public PostEntity() {
     }
 
@@ -48,6 +50,7 @@ public class PostEntity {
         this.postContent = postContent;
         isDeleted = false;
         this.postImage = postImage;
+        isPinned = false;
     }
 
     public int getPostId() {
@@ -132,5 +135,13 @@ public class PostEntity {
     public void preUpdate() {
         postModifiedDate = LocalDate.now();
         postModifiedTime = LocalTime.now();
+    }
+
+    public void setIsPinned(boolean isPinned) {
+        this.isPinned = isPinned;
+    }
+
+    public boolean getIsPinned() {
+        return isPinned;
     }
 }
